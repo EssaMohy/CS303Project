@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Home from "../../screens/home";
+import Register from "../../screens/register";
 
 const index = () => {
-  return <Home></Home>;
+  return <Register></Register>;
 };
 
 export default index;
