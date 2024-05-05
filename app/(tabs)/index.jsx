@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Home from "../../screens/home";
+import Forgot from "../../screens/forgot";
+
 
 const index = () => {
-  return <Home></Home>;
-};
+  return(
+   <Forgot></Forgot>
+  
+)};
 
 export default index;
 
