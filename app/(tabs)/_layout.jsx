@@ -19,6 +19,7 @@ export default function Layout() {
         tabBarStyle: {
           backgroundColor: "#FCC873",
           borderRadius: 15,
+          margin: 15,
         },
       }}
     >
