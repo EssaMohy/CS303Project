@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Home from "../../screens/home";
-import Register from "../../screens/register";
+import Forgot from "../../screens/forgot";
+
 
 const index = () => {
-  return <Register></Register>;
-};
+  return(
+   <Forgot></Forgot>
+  
+)};
 
 export default index;
 
