@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,11 +9,6 @@ export default function Layout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarBadgeStyle: {
-          backgroundColor: "#0F141D",
-          borderTopWidth: 0,
-          padding: 0,
-        },
         tabBarShowLabel: false,
         tabBarActiveTintColor: "#233B6F",
         tabBarStyle: {
@@ -21,10 +16,11 @@ export default function Layout() {
           borderRadius: 15,
           margin: 15,
         },
+        headerShown: false,
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="home-outline" size={24} color={color} />
@@ -58,3 +54,9 @@ export default function Layout() {
     </Tabs>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+});

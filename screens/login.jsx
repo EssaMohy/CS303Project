@@ -7,48 +7,54 @@ import {
   Pressable,
   StyleSheet,
 } from "react-native";
+import { login } from "../firebase/auth";
 import COLORS from "../constants/colors";
 import { router } from "expo-router";
-import firebase from "firebase/app";
-import "firebase/auth";
-import { Reset } from "../firebase/auth";
 
-const forgot = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleResetPassword = async () => {
+  const handleLogin = async () => {
     try {
-      await Reset(email);
-      setMessage("Password reset email sent. Please check your inbox.");
+      const credentials = await login(email, password);
+      console.log("credentials", credentials);
+      router.replace("/(tabs)/home");
     } catch (error) {
-      setError(error.message);
+      console.log("error", JSON.stringify(error));
+      setError(error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Forgot Password?</Text>
+      <Text style={styles.title}>Welcome Back!</Text>
       <TextInput
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
         style={styles.input}
       />
-      <Button
-        title="Reset Password"
-        onPress={handleResetPassword}
-        color={COLORS.primary}
+      <TextInput
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        style={styles.input}
       />
-      <Pressable onPress={() => router.replace("/(authenticate)/login")}>
-        <Text style={styles.link}>Login</Text>
+      <Button title="Login" onPress={handleLogin} color={COLORS.primary} />
+      <Pressable onPress={() => router.replace("/(authenticate)/register")}>
+        <Text style={styles.link}>Don't have an account? Register here</Text>
       </Pressable>
-      {message ? <Text style={styles.message}>{message}</Text> : null}
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+      <Pressable onPress={() => router.replace("/(authenticate)/forgot")}>
+        <Text style={styles.link}>Forgot Password?</Text>
+      </Pressable>
+      {error ? <Text style={styles.error}>{error.code}</Text> : null}
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -78,10 +84,6 @@ const styles = StyleSheet.create({
     color: "red",
     marginTop: 10,
   },
-  message: {
-    color: "green",
-    marginTop: 10,
-  },
 });
 
-export default forgot;
+export default Login;
