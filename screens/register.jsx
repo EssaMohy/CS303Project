@@ -1,5 +1,4 @@
-import { router } from "expo-router";
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import {
   View,
@@ -14,16 +13,48 @@ import {
   Keyboard,
   Animated,
   Easing,
+  Platform
 } from "react-native";
 import { register } from "../firebase/auth";
-import COLORS from "../constants/colors";
+import { router } from "expo-router";
 
 const Register = () => {
+  // State hooks for form inputs and error handling
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  // State hook for logo opacity animation
+  const [logoOpacity] = useState(new Animated.Value(1));
+
+  // Event listeners for keyboard show/hide
+  useEffect(() => {
+    const keyboardShowListener = Keyboard.addListener("keyboardDidShow", () => {
+      Animated.timing(logoOpacity, {
+        toValue: 0,
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        useNativeDriver: true,
+      }).start();
+    });
+
+    const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
+      Animated.timing(logoOpacity, {
+        toValue: 1,
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        useNativeDriver: true,
+      }).start();
+    });
+
+    return () => {
+      keyboardShowListener.remove();
+      keyboardHideListener.remove();
+    };
+  }, []);
+
+  // Handler for the registration process
   const handlePress = async () => {
     try {
       const credentials = await register(userName, email, password);
@@ -35,47 +66,15 @@ const Register = () => {
     }
   };
 
-
+  // Handler for returning to the previous screen
   const handleReturn = () => {
-    // Navigate back to the login screen or previous route
-    router.replace("/(authenticate)/login"); // Replace with the appropriate route
+    router.replace("/(authenticate)/login");
   };
-
-
-  const [logoOpacity] = useState(new Animated.Value(1));
-
-  useEffect(() => {
-    // Event listener for keyboard show
-    const keyboardShowListener = Keyboard.addListener("keyboardDidShow", () => {
-      Animated.timing(logoOpacity, {
-        toValue: 0, // Fade out
-        duration: 300, // Animation speed
-        easing: Easing.out(Easing.poly(4)), // Easing function for a smooth start
-        useNativeDriver: true, // Use native driver for better performance
-      }).start();
-    });
-
-    // Event listener for keyboard hide
-    const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
-      Animated.timing(logoOpacity, {
-        toValue: 1, // Fade in
-        duration: 300, // Animation speed
-        easing: Easing.out(Easing.poly(4)), // Easing function for a smooth start
-        useNativeDriver: true, // Use native driver for better performance
-      }).start();
-    });
-
-    // Cleanup function
-    return () => {
-      keyboardShowListener.remove();
-      keyboardHideListener.remove();
-    };
-  }, []);
   return (
     <ImageBackground
       source={require("../assets/images/Register.jpeg")} // Replace with your image path
       style={styles.background}
-      blurRadius={4} // Optional: if you want the background image to be blurred
+      blurRadius={5} // Optional: if you want the background image to be blurred
     >
       <Animated.View style={[styles.logoContainer, { opacity: logoOpacity }]}>
         <Image
@@ -96,8 +95,8 @@ const Register = () => {
             style={styles.input}
             placeholder="Email"
             keyboardType="email-address"
-value={email}
-        onChangeText={setEmail}
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -107,11 +106,12 @@ value={email}
             color="#858080"
             style={styles.icon}
           />
-          <TextInput style={styles.input} 
-placeholder="Name"
-value={userName}
-        onChangeText={setUserName}
- />
+          <TextInput
+            style={styles.input}
+            placeholder="Name"
+            value={userName}
+            onChangeText={setUserName}
+          />
         </View>
         <View style={styles.inputContainer}>
           <Octicons name="lock" size={24} color="#858080" style={styles.icon} />
@@ -119,28 +119,22 @@ value={userName}
             style={styles.input}
             placeholder="Password"
             secureTextEntry
-value={password}
-        onChangeText={setPassword}
+            value={password}
+            onChangeText={setPassword}
           />
         </View>
         <TouchableOpacity onPress={handlePress} style={styles.button}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={handleReturn} style={styles.Rebutton}>
+            <Text style={styles.RebuttonText}>Login</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleReturn} style={styles.button}>
-          <Text style={styles.buttonText}>Return to Login</Text>
-        </TouchableOpacity>
-        
-
-{error ? <Text style={styles.error}>{error.code}</Text> : null}
+        {error ? <Text style={styles.error}>{error.code}</Text> : null}
       </View>
-
-     
-   
-
     </ImageBackground>
   );
-}
+};
 
 const styles = StyleSheet.create({
   background: {
@@ -176,6 +170,7 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 10,
     fontWeight: "bold",
+    color: "white",
   },
   icon: {
     marginRight: 10,
@@ -190,30 +185,38 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-
   buttonText: {
     color: "black",
     fontSize: 18,
   },
   logoContainer: {
     position: "absolute",
-    top: 100, // Adjust as needed for your logo size
+    top: 15, // Adjust as needed for your logo size
     alignItems: "center",
     width: "100%",
     height: "100%",
   },
   logo: {
-    width: 175, // Set the width of your logo
-    height: 175, // Set the height of your logo
+    width: 320, // Set the width of your logo
+    height: 320, // Set the height of your logo
     resizeMode: "contain", // Keeps the aspect ratio intact
   },
   elegantText: {
-    fontFamily:'Quicksand-Bold',
-    marginTop: 13, // Space between logo and text
+    fontFamily: "Quicksand",
+    marginTop: -95, // Space between logo and text
     color: "#D3D3D3", // Light color for contrast
-    fontSize: 22, // Adjust as needed
+    fontSize: 20, // Adjust as needed
+  },
+  Rebutton: {
+    marginTop: 10, // Add some space between the Register button and this text
+    marginBottom: 10, // Add some space below the text
+  },
+  RebuttonText: {
+    color: "#858080", // Use the same color as your Register button for consistency
+    textDecorationLine: "underline", // Underline the text to make it clear it's a link
+    fontSize: 16, // Set a font size that's easy to read
+    fontWeight: "bold", // Make the text bold to stand out
   },
 });
-
 
 export default Register;

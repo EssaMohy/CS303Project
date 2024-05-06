@@ -11,10 +11,10 @@ import { router } from "expo-router";
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log("We are authenticated now!");
+    console.log("Authenticated");
     router.replace("/(tabs)/home");
   } else {
-    console.log("We are not authenticated");
+    console.log("Not authenticated");
     router.replace("/(authenticate)/login");
   }
 });

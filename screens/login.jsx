@@ -22,32 +22,30 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-  const logoScale = new Animated.Value(1);
+
+  // State hook for logo opacity animation
   const [logoOpacity] = useState(new Animated.Value(1));
 
+  // Event listeners for keyboard show/hide
   useEffect(() => {
-    // Event listener for keyboard show
     const keyboardShowListener = Keyboard.addListener("keyboardDidShow", () => {
       Animated.timing(logoOpacity, {
-        toValue: 0, // Fade out
-        duration: 300, // Animation speed
-        easing: Easing.out(Easing.poly(4)), // Easing function for a smooth start
-        useNativeDriver: true, // Use native driver for better performance
+        toValue: 0,
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        useNativeDriver: true,
       }).start();
     });
 
-    // Event listener for keyboard hide
     const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
       Animated.timing(logoOpacity, {
-        toValue: 1, // Fade in
-        duration: 300, // Animation speed
-        easing: Easing.out(Easing.poly(4)), // Easing function for a smooth start
-        useNativeDriver: true, // Use native driver for better performance
+        toValue: 1,
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        useNativeDriver: true,
       }).start();
     });
 
-    // Cleanup function
     return () => {
       keyboardShowListener.remove();
       keyboardHideListener.remove();
@@ -67,9 +65,9 @@ const Login = () => {
 
   return (
     <ImageBackground
-    source={require("../assets/images/Register.jpeg")} // Replace with your image path
+    source={require("../assets/images/Login.jpeg")} // Replace with your image path
     style={styles.background}
-    blurRadius={4} // Optional: if you want the background image to be blurred
+    blurRadius={5} // Optional: if you want the background image to be blurred
   >
     <Animated.View style={[styles.logoContainer, { opacity: logoOpacity }]}>
       <Image
@@ -160,23 +158,22 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 10,
     fontWeight: "bold",
+    color: "white",
   },
   icon: {
     marginRight: 10,
   },
   button: {
-    width: "100%",
-    height: 50,
+    width: "90%", // This will be 90% of its parent container's width
+    height: 45,
     backgroundColor: "#FCC873",
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -130,
-    marginBottom:350,
-    top: 50,
-    borderWidth:1,
-    
-    
+    alignSelf: 'center', // This will center the button in the parent container
+    marginTop: -90, // Adjust this as needed
+    marginBottom: 215, // Adjust this as needed
+    borderWidth: 1,
   },
 
 
@@ -187,7 +184,7 @@ const styles = StyleSheet.create({
   },
   link1:{
     width: "100%",
-    top:-143,
+    top:-100,
     color:"grey",
     justifyContent: "center",
     alignItems: "center",
@@ -195,7 +192,7 @@ const styles = StyleSheet.create({
   },
   link2:{
     width: "100%",
-    top:-130, 
+    top:-95, 
     color:"grey",
     justifyContent: "center",
     alignItems: "center",
@@ -204,21 +201,21 @@ const styles = StyleSheet.create({
 
   logoContainer: {
     position: "absolute",
-    top: 100, // Adjust as needed for your logo size
+    top: 15, // Adjust as needed for your logo size
     alignItems: "center",
     width: "100%",
     height: "100%",
   },
   logo: {
-    width: 175, // Set the width of your logo
-    height: 175, // Set the height of your logo
+    width: 320, // Set the width of your logo
+    height: 320, // Set the height of your logo
     resizeMode: "contain", // Keeps the aspect ratio intact
   },
   elegantText: {
-    fontFamily:'Quicksand-Bold',
-    marginTop: 13, // Space between logo and text
+    fontFamily: "Quicksand",
+    marginTop: -95, // Space between logo and text
     color: "#D3D3D3", // Light color for contrast
-    fontSize: 22, // Adjust as needed
+    fontSize: 20, // Adjust as needed
   },
 });
 
