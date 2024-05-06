@@ -54,9 +54,3 @@ export default function Layout() {
     </Tabs>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0)",
-  },
-});
