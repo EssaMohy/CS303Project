@@ -34,6 +34,14 @@ const Register = () => {
       setError(error);
     }
   };
+
+
+  const handleReturn = () => {
+    // Navigate back to the login screen or previous route
+    router.replace("/(authenticate)/login"); // Replace with the appropriate route
+  };
+
+
   const [logoOpacity] = useState(new Animated.Value(1));
 
   useEffect(() => {
@@ -118,8 +126,18 @@ value={password}
         <TouchableOpacity onPress={handlePress} style={styles.button}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleReturn} style={styles.button}>
+          <Text style={styles.buttonText}>Return to Login</Text>
+        </TouchableOpacity>
+        
+
 {error ? <Text style={styles.error}>{error.code}</Text> : null}
       </View>
+
+     
+   
+
     </ImageBackground>
   );
 }
@@ -171,6 +189,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
   },
+
+
   buttonText: {
     color: "black",
     fontSize: 18,
