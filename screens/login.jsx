@@ -105,9 +105,13 @@ value={password}
 
 {error ? <Text style={styles.error}>{error.code}</Text> : null}
     </View>
-    <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
+    
+    <View style={styles.buttonContainer}>
+  <TouchableOpacity onPress={handleLogin} style={styles.button}>
+    <Text style={styles.buttonText}>Login</Text>
+  </TouchableOpacity>
+</View>
+
 
         <View style={styles.link1}>
         <Pressable onPress={() => router.replace("/(authenticate)/register")}>
@@ -135,14 +139,15 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "flex-end", // Changed from "center" to "flex-end"
+    justifyContent: "flex-end", 
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingVertical: 100, // Increased padding to push the content down
+    paddingBottom: 50, 
+    paddingTop: 100, 
   },
   inputContainer: {
-    flexDirection: "row", // Align icon and text input
-    alignItems: "center", // Center items vertically
+    flexDirection: "row", 
+    alignItems: "center", 
     width: "100%",
     height: 50,
     marginBottom: 10,
@@ -150,9 +155,10 @@ const styles = StyleSheet.create({
     borderColor: "#858080",
     borderRadius: 25,
     paddingHorizontal: 15,
-    backgroundColor: "rgba(133, 128, 128, 0.4)", // Semi-transparent background
+    backgroundColor: "rgba(133, 128, 128, 0.4)", 
     color: "black",
   },
+
   input: {
     flex: 1,
     height: "100%",
@@ -160,62 +166,72 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+
   icon: {
     marginRight: 10,
+  
   },
+
+  buttonContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 50, 
+  },
+
   button: {
-    width: "90%", // This will be 90% of its parent container's width
+    width: "90%",
     height: 45,
     backgroundColor: "#FCC873",
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: 'center', // This will center the button in the parent container
-    marginTop: -90, // Adjust this as needed
-    marginBottom: 215, // Adjust this as needed
+    alignSelf: 'center',
+    marginBottom: 20, 
+    marginTop: 10,
     borderWidth: 1,
-  },
+},
 
+link1:{
+    width: "100%",
+    marginTop: 20,
+    marginBottom: 10, 
+    color: "grey",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 17,
+},
+link2:{
+    width: "100%",
+    marginTop: 10,
+    marginBottom: 20, 
+    color: "grey",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 17,
+},
 
   buttonText: {
     color: "black",
     fontSize: 18,
-   
-  },
-  link1:{
-    width: "100%",
-    top:-100,
-    color:"grey",
-    justifyContent: "center",
-    alignItems: "center",
-    fontSize:17,
-  },
-  link2:{
-    width: "100%",
-    top:-95, 
-    color:"grey",
-    justifyContent: "center",
-    alignItems: "center",
-  fontSize:17,
   },
 
   logoContainer: {
     position: "absolute",
-    top: 15, // Adjust as needed for your logo size
+    top: 30, 
     alignItems: "center",
     width: "100%",
     height: "100%",
   },
   logo: {
-    width: 320, // Set the width of your logo
-    height: 320, // Set the height of your logo
-    resizeMode: "contain", // Keeps the aspect ratio intact
+    width: 320, 
+    height: 320, 
+    resizeMode: "contain", 
   },
   elegantText: {
     fontFamily: "Quicksand",
-    marginTop: -95, // Space between logo and text
-    color: "#D3D3D3", // Light color for contrast
-    fontSize: 20, // Adjust as needed
+    marginTop: -95, 
+    color: "#D3D3D3", 
+    fontSize: 20, 
   },
 });
 
