@@ -12,9 +12,13 @@ export default function Layout() {
         tabBarShowLabel: false,
         tabBarActiveTintColor: "#233B6F",
         tabBarStyle: {
+          position: "absolute",
+          bottom: 25,
+          left: 20,
+          right: 20,
           backgroundColor: "#FCC873",
-          borderRadius: 15,
-          margin: 15,
+          borderRadius: 20,
+          height: 60,
         },
         headerShown: false,
       }}
