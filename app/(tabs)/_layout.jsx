@@ -20,7 +20,6 @@ export default function Layout() {
           borderRadius: 20,
           height: 60,
         },
-        headerShown: false,
       }}
     >
       <Tabs.Screen
