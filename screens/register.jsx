@@ -77,9 +77,9 @@ const Register = () => {
   };
   return (
     <ImageBackground
-      source={require("../assets/images/Register.jpeg")} // Replace with your image path
+      source={require("../assets/images/Register.jpeg")} 
       style={styles.background}
-      blurRadius={5} // Optional: if you want the background image to be blurred
+      blurRadius={5} 
     >
       <Animated.View style={[styles.logoContainer, { opacity: logoOpacity }]}>
         <Image
@@ -152,14 +152,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "flex-end", // Changed from "center" to "flex-end"
+    justifyContent: "flex-end", 
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingVertical: 170, // Increased padding to push the content down
+    paddingVertical: 170, 
   },
   inputContainer: {
-    flexDirection: "row", // Align icon and text input
-    alignItems: "center", // Center items vertically
+    flexDirection: "row", 
+    alignItems: "center", 
     width: "100%",
     height: 50,
     marginBottom: 10,
