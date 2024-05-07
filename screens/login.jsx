@@ -12,6 +12,7 @@ import {
   Keyboard,
   Easing,
   ImageBackground,
+  Alert,
 } from "react-native";
 import COLORS from "../constants/colors";
 import { login } from "../firebase/auth";
@@ -53,16 +54,22 @@ const Login = () => {
   }, []);
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Login', "Please enter the email and password");
+      return;
+    }
     try {
-      const credentials = await login(email, password);
-      console.log("credentials", credentials);
+      const response = await login(email, password);
+      if(!response.success){
+        Alert.alert('Login', response.msg);
+      }
+      /* console.log("credentials", credentials); */
       // Handle successful login, navigate to home screen
     } catch (error) {
       console.log("error", JSON.stringify(error));
-      setError(error);
+      setError(error); // Ensure setError is defined and updates the state
     }
   };
-
   return (
     <ImageBackground
     source={require("../assets/images/Login.jpeg")} // Replace with your image path
@@ -142,15 +149,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end", 
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingBottom: 50, 
-    paddingTop: 100, 
+    paddingBottom: 10, 
+    paddingTop: 50, 
   },
   inputContainer: {
     flexDirection: "row", 
     alignItems: "center", 
     width: "100%",
     height: 50,
-    marginBottom: 10,
+    marginBottom: 20,
     borderWidth: 1,
     borderColor: "#858080",
     borderRadius: 25,
@@ -175,7 +182,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 50, 
+    marginBottom: 10, 
   },
 
   button: {
@@ -193,7 +200,7 @@ const styles = StyleSheet.create({
 
 link1:{
     width: "100%",
-    marginTop: 20,
+    marginTop: 0,
     marginBottom: 10, 
     color: "grey",
     justifyContent: "center",
@@ -202,7 +209,7 @@ link1:{
 },
 link2:{
     width: "100%",
-    marginTop: 10,
+    marginTop: 0,
     marginBottom: 20, 
     color: "grey",
     justifyContent: "center",

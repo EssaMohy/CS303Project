@@ -32,10 +32,13 @@ async function register(name, email, password) {
 
 async function login(email, password) {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const response = await signInWithEmailAndPassword(auth, email, password);
+    return {success: true};
   } catch (error) {
-    console.error("Login Error:", error.message);
-    throw error;
+    let msg = error.message;
+    if(msg.includes('(auth/invalid-email)')) msg='Invalid email';
+    if(msg.includes('(auth/invalid-credential)')) msg='Invalid credentials';
+    return {success: false, msg};
   }
 }
 

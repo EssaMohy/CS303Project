@@ -13,7 +13,8 @@ import {
   Keyboard,
   Animated,
   Easing,
-  Platform
+  Platform,
+  Alert
 } from "react-native";
 import { register } from "../firebase/auth";
 import { router } from "expo-router";
@@ -56,6 +57,10 @@ const Register = () => {
 
   // Handler for the registration process
   const handlePress = async () => {
+   if(!email || !password || !userName){
+      Alert.alert('Register' , "Please fill the required information");
+      return;
+    }
     try {
       const credentials = await register(userName, email, password);
       console.log("credentials", credentials);
