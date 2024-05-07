@@ -20,6 +20,8 @@ export default function Layout() {
           borderRadius: 20,
           height: 60,
         },
+        headerTitleAlign: "center",
+        headerTitle: "EON",
       }}
     >
       <Tabs.Screen
