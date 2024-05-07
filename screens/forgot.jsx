@@ -10,6 +10,8 @@ import {
   Animated,
   TouchableOpacity,
   Image,
+  Keyboard,
+  Easing
 } from "react-native";
 import COLORS from "../constants/colors";
 import { router } from "expo-router";
@@ -25,6 +27,33 @@ const forgot = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  const [logoOpacity] = useState(new Animated.Value(1));
+
+  // Event listeners for keyboard show/hide
+  useEffect(() => {
+    const keyboardShowListener = Keyboard.addListener("keyboardDidShow", () => {
+      Animated.timing(logoOpacity, {
+        toValue: 0,
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        useNativeDriver: true,
+      }).start();
+    });
+
+    const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
+      Animated.timing(logoOpacity, {
+        toValue: 1,
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        useNativeDriver: true,
+      }).start();
+    });
+
+    return () => {
+      keyboardShowListener.remove();
+      keyboardHideListener.remove();
+    };
+  }, []);
 
   const handleResetPassword = async () => {
     try {
@@ -42,9 +71,10 @@ const forgot = () => {
       blurRadius={5}
     >
       
-
+    <Animated.View style={[styles.logoContainer, { opacity: logoOpacity }]}>
+    <Image source={Logo} style={styles.logo} />
+    </Animated.View>
       <View style={styles.container}>
-      <Image source={Logo} style={styles.logo} />
       <Text style={styles.title}>Forgot Password?</Text>
       <TextInput
         placeholder="Email"
@@ -73,18 +103,25 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
 
+  logoContainer: {
+    position: "absolute",
+    top: 15, // Adjust as needed for your logo size
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+  },
   logo: {
-    width: 300,
-    height: 300,
-    marginBottom: 50,
-    marginTop:-90,
+    width: 320, // Set the width of your logo
+    height: 320, // Set the height of your logo
+    resizeMode: "contain", // Keeps the aspect ratio intact
   },
   
   container: {
-    flex: 1,
+    flex: 0,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
+    marginTop:310,
   },
   title: {
     fontSize: 24,
@@ -102,7 +139,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 15,
     backgroundColor: "rgba(255, 255, 255, 0.3)",
-    
+    color:'white'
   },
   icon: {
     marginRight: 10,
