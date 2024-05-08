@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View , Keyboard} from "react-native";
+import { StyleSheet, Text, View , Keyboard , StatusBar , colorScheme} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,8 +23,9 @@ export default function Layout() {
       keyboardDidHideListener.remove();
     };
   }, []);
-
   return (
+    <> 
+      <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,
@@ -41,6 +42,9 @@ export default function Layout() {
         },
         headerTitleAlign: "center",
         headerTitle: "EON",
+        headerStyle: {
+          backgroundColor: "transparent",
+        },
 
       }}
     >
@@ -77,5 +81,6 @@ export default function Layout() {
         }}
       />
     </Tabs>
+    </>
   );
 }

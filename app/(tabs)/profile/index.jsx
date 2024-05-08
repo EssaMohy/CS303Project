@@ -51,7 +51,9 @@ const Profile = () => {
       </TouchableOpacity>
 
       {image && 
-        <ImageBackground source={{ uri: image }} style={styles.image} />
+        <View style={styles.imageContainer}>
+    <Image source={{ uri: image }} style={styles.image} />
+  </View>
       }
 
       <TextInput
@@ -118,7 +120,15 @@ const styles = StyleSheet.create({
   image: {
     width: 170,
     height: 170,
-    borderRadius:85,
+    borderRadius:20,
+  },
+  imageContainer: {
+    width: 170,
+    height: 170,
+    borderRadius: 85,
+    overflow: 'hidden',
+    borderWidth: .75,  // Add this to check if the container is rendered
+    borderColor: '#FCC873', // Add this to check if the container is rendered
   },
   addButton: {
     position: 'absolute',
