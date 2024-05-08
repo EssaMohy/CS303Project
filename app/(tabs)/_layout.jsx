@@ -1,11 +1,29 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View , Keyboard} from "react-native";
+import React, { useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
 import colors from "@/constants/colors";
 
 export default function Layout() {
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setIsKeyboardVisible(true)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setIsKeyboardVisible(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <Tabs
       screenOptions={{
@@ -19,9 +37,11 @@ export default function Layout() {
           backgroundColor: "#FCC873",
           borderRadius: 20,
           height: 60,
+          opacity: isKeyboardVisible ? 0 : 1,
         },
         headerTitleAlign: "center",
         headerTitle: "EON",
+
       }}
     >
       <Tabs.Screen
