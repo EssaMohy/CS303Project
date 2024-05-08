@@ -55,13 +55,13 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Login', "Please enter the email and password");
+      Alert.alert("Login", "Please enter the email and password");
       return;
     }
     try {
       const response = await login(email, password);
-      if(!response.success){
-        Alert.alert('Login', response.msg);
+      if (!response.success) {
+        Alert.alert("Login", response.msg);
       }
       /* console.log("credentials", credentials); */
       // Handle successful login, navigate to home screen
@@ -72,66 +72,65 @@ const Login = () => {
   };
   return (
     <ImageBackground
-    source={require("../assets/images/Login.jpeg")} // Replace with your image path
-    style={styles.background}
-    blurRadius={5} // Optional: if you want the background image to be blurred
-  >
-    <Animated.View style={[styles.logoContainer, { opacity: logoOpacity }]}>
-      <Image
-        source={require("../assets/images/Logo.png")}
-        style={styles.logo}
-      />
-      <Text style={styles.elegantText}>Welcome Back!</Text>
-    </Animated.View>
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <MaterialCommunityIcons
-          name="email-outline"
-          size={24}
-          color="#858080"
-          style={styles.icon}
+      source={require("../assets/images/Login.jpeg")} // Replace with your image path
+      style={styles.background}
+      blurRadius={5} // Optional: if you want the background image to be blurred
+    >
+      <Animated.View style={[styles.logoContainer, { opacity: logoOpacity }]}>
+        <Image
+          source={require("../assets/images/Logo.png")}
+          style={styles.logo}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-value={email}
-      onChangeText={setEmail}
-        />
+        <Text style={styles.elegantText}>Welcome Back!</Text>
+      </Animated.View>
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+          <MaterialCommunityIcons
+            name="email-outline"
+            size={24}
+            color="#858080"
+            style={styles.icon}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Octicons name="lock" size={24} color="#858080" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+        </View>
+
+        {error ? <Text style={styles.error}>{error.code}</Text> : null}
       </View>
-      <View style={styles.inputContainer}>
-        <Octicons name="lock" size={24} color="#858080" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-value={password}
-      onChangeText={setPassword}
-        />
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={handleLogin} style={styles.button}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
       </View>
 
-{error ? <Text style={styles.error}>{error.code}</Text> : null}
-    </View>
-    
-    <View style={styles.buttonContainer}>
-  <TouchableOpacity onPress={handleLogin} style={styles.button}>
-    <Text style={styles.buttonText}>Login</Text>
-  </TouchableOpacity>
-</View>
-
-
-        <View style={styles.link1}>
+      <View style={styles.link1}>
         <Pressable onPress={() => router.replace("/(authenticate)/register")}>
           <Text style={styles.link1}>Don't have an account? Register here</Text>
         </Pressable>
-        </View>
+      </View>
 
-        <View style={styles.link2}>
+      <View style={styles.link2}>
         <Pressable onPress={() => router.replace("/(authenticate)/forgot")}>
           <Text style={styles.link2}>Forgot Password?</Text>
         </Pressable>
-        </View>
-  </ImageBackground>
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -146,15 +145,15 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "flex-end", 
+    justifyContent: "flex-end",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingBottom: 10, 
-    paddingTop: 50, 
+    paddingBottom: 10,
+    paddingTop: 50,
   },
   inputContainer: {
-    flexDirection: "row", 
-    alignItems: "center", 
+    flexDirection: "row",
+    alignItems: "center",
     width: "100%",
     height: 50,
     marginBottom: 20,
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
     borderColor: "#858080",
     borderRadius: 25,
     paddingHorizontal: 15,
-    backgroundColor: "rgba(133, 128, 128, 0.4)", 
+    backgroundColor: "rgba(133, 128, 128, 0.4)",
     color: "black",
   },
 
@@ -176,13 +175,12 @@ const styles = StyleSheet.create({
 
   icon: {
     marginRight: 10,
-  
   },
 
   buttonContainer: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 10, 
+    marginBottom: 10,
   },
 
   button: {
@@ -192,30 +190,30 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: 'center',
-    marginBottom: 20, 
+    alignSelf: "center",
+    marginBottom: 20,
     marginTop: 10,
     borderWidth: 1,
-},
+  },
 
-link1:{
+  link1: {
     width: "100%",
     marginTop: 0,
-    marginBottom: 10, 
+    marginBottom: 10,
     color: "grey",
     justifyContent: "center",
     alignItems: "center",
     fontSize: 17,
-},
-link2:{
+  },
+  link2: {
     width: "100%",
     marginTop: 0,
-    marginBottom: 20, 
+    marginBottom: 20,
     color: "grey",
     justifyContent: "center",
     alignItems: "center",
     fontSize: 17,
-},
+  },
 
   buttonText: {
     color: "black",
@@ -224,21 +222,21 @@ link2:{
 
   logoContainer: {
     position: "absolute",
-    top: 30, 
+    top: 30,
     alignItems: "center",
     width: "100%",
     height: "100%",
   },
   logo: {
-    width: 320, 
-    height: 320, 
-    resizeMode: "contain", 
+    width: 320,
+    height: 320,
+    resizeMode: "contain",
   },
   elegantText: {
     fontFamily: "Quicksand",
-    marginTop: -95, 
-    color: "#D3D3D3", 
-    fontSize: 20, 
+    marginTop: -95,
+    color: "#D3D3D3",
+    fontSize: 20,
   },
 });
 

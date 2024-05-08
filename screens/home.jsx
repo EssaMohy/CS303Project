@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import CategoryButtons from "../components/CategoryButtons";
 
 const home = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.headingtxt}>Hello</Text>
       <Text style={styles.headingtxt2}>Choose your top brands</Text>
+      <CategoryButtons></CategoryButtons>
     </View>
   );
 };
