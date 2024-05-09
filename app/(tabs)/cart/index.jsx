@@ -1,20 +1,51 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
 
-const cart = () => {
+const Cart = ({ cartItems, removeItem }) => {
+  const renderItem = ({ item }) => (
+    <View style={styles.item}>
+      <Text>{item.name}</Text>
+      <TouchableOpacity onPress={() => removeItem(item.id)}>
+        <Text style={styles.removeButton}>Remove</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
-      <Text>cart</Text>
+      <Text style={styles.title}>Cart</Text>
+      <FlatList
+        data={cartItems}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </View>
   );
 };
 
-export default cart;
+export default Cart;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  item: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    paddingVertical: 10,
+  },
+  removeButton: {
+    color: "red",
+    fontWeight: "bold",
   },
 });

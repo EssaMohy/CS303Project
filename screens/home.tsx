@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View,ScrollView } from "react-native";
 import React, { useState } from "react";
 import CategoryButtons from "../components/CategoryButtons";
 import Listings from "@/components/Listings";
@@ -13,7 +13,7 @@ const home = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.headingtxt}>Hello</Text>
       <Text style={styles.headingtxt2}>Choose your top brands</Text>
 
@@ -21,7 +21,7 @@ const home = () => {
 
       <Listings listings={ListingData} category={category}></Listings>
 
-    </View>
+    </ScrollView>
   );
 };
 

@@ -13,6 +13,12 @@ const Listings = ({listings, category}: props) => {
 
     const [loading, setLoading] = useState(false);
 
+    const [cartItems, setCartItems] = useState<any[]>([]);
+
+    const handleAddToCart = (item: any) => {
+        setCartItems([...cartItems, item]);
+    };
+
     useEffect(() => {
         console.log('update listing');
         setLoading(true);
@@ -25,27 +31,28 @@ const Listings = ({listings, category}: props) => {
     const renderItems : ListRenderItem<ListingType> = ({ item }: { item: any }) => {
         
         return (
-            <Link href={('/listing/${item.id}')} asChild>
-            <View style={styles.item}>
-
-                <TouchableOpacity >
-                    <View >
-                        <Image
-                            source={{ uri: item.image }}
-                            style={styles.image}
-                        />
-                        <View style={styles.overlay}>
-                            <Text style={styles.brandtxt} numberOfLines={1} ellipsizeMode='tail'>
-                                {item.brand}
-                            </Text>
-                            <Text style={styles.price}>
-                                ${item.price}
-                            </Text>
+            <Link href={`/listing/${item.id}`} asChild>
+                <View style={styles.item}>
+                    <TouchableOpacity>
+                        <View>
+                            <Image
+                                source={{ uri: item.image }}
+                                style={styles.image}
+                            />
+                            <View style={styles.overlay}>
+                                <Text style={styles.brandtxt} numberOfLines={1} ellipsizeMode='tail'>
+                                    {item.brand}
+                                </Text>
+                                <Text style={styles.price}>
+                                    ${item.price}
+                                </Text>
+                            </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleAddToCart(item)} style={styles.addButton}>
+                    <Text style={styles.addButtonText}>Add to Cart</Text>
                 </TouchableOpacity>
-              
-            </View>
+                </View>
             </Link>
         );
       };
@@ -91,13 +98,24 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 10,
     },
     brandtxt: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: '600',
         color: Colors.black,
     },
     price: {
-        fontSize: 12,
+        fontSize: 15,
         fontWeight: '600',
-        color: Colors.primary,
-    }
+        color: 'black',
+    },
+    addButton: {
+        backgroundColor: '#FCC873',
+        padding: 5,
+        borderRadius: 5,
+        marginTop: 5,
+        alignItems: 'center',
+    },
+    addButtonText: {
+        color: 'black',
+        fontWeight: 'bold',
+    },
 });
