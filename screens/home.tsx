@@ -19,7 +19,7 @@ const home = () => {
 
       <CategoryButtons onCategoryChanged={onCatChanged}></CategoryButtons>
 
-      <Listings listings={ListingData}></Listings>
+      <Listings listings={ListingData} category={category}></Listings>
 
     </View>
   );
