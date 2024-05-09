@@ -1,13 +1,26 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import CategoryButtons from "../components/CategoryButtons";
+import Listings from "@/components/Listings";
+import ListingData from '@/data/destinations.json';
 
 const home = () => {
+  const[category, setCategory] = useState<string>('Trending'); 
+
+  const onCatChanged = (category: string) => {
+    console.log("Category: ", category);
+    setCategory(category);
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.headingtxt}>Hello</Text>
       <Text style={styles.headingtxt2}>Choose your top brands</Text>
-      <CategoryButtons></CategoryButtons>
+
+      <CategoryButtons onCategoryChanged={onCatChanged}></CategoryButtons>
+
+      <Listings listings={ListingData}></Listings>
+
     </View>
   );
 };

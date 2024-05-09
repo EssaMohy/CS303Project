@@ -1,0 +1,25 @@
+ [
+      {
+        "id": 1,
+        "brand": "Rolex",
+        "model": "Submariner",
+        "price": 10000,
+        "image": "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png"
+      },
+      {
+        "id": 2,
+        "brand": "Omega",
+        "model": "Speedmaster",
+        "price": 7000,
+        "image": "https://michaelspiers.co.uk/cdn/shop/files/6A1309VR_1024x.jpg?v=1690378819"
+      },
+      {
+        "id": 3,
+        "brand": "Seiko",
+        "model": "Presage",
+        "price": 500,
+        "image": "https://www.ernestjones.co.uk/productimages/processed/V-2445425_0_800.jpg?pristine=true"
+      }
+    ]
+  
+  

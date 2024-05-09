@@ -7,8 +7,12 @@ import {
 } from "react-native";
 import React, { useRef, useState } from "react";
 import destinationCategories from "../data/categories";
+type props = {
+  onCategoryChanged: (category: string) => void;
+}
 
-const CategoryButtons = () => {
+
+const CategoryButtons = ({onCategoryChanged}:props) => {
   const itemRef = useRef<TouchableOpacity[]>([]);
   const scrollRef = useRef<ScrollView>(null); // Declare scrollRef here
   const [activeIndex, setActiveIndex] = useState(0);
@@ -20,13 +24,14 @@ const CategoryButtons = () => {
     selected?.measure((x) => {
       scrollRef.current?.scrollTo({ x: x, y: 0, animated: true });
     });
+
+    onCategoryChanged(destinationCategories[index].title);
   };
 
   return (
     <View>
       <ScrollView
-        horizontal
-        ref={scrollRef} // Attach ref to ScrollView
+        horizontal ref={scrollRef} // Attach ref to ScrollView
         contentContainerStyle={{
           gap: 10,
           paddingVertical: 10,
@@ -42,6 +47,8 @@ const CategoryButtons = () => {
             }
             onPress={() => handleSelectCategory(index)}
           >
+            
+
             <Text
               style={
                 activeIndex === index
