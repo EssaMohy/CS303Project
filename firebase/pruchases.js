@@ -1,4 +1,4 @@
-import { db } from "./config";
+import { db } from "./firebaseConfig";
 import {
     updateDoc,
     getDoc,

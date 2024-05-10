@@ -8,6 +8,7 @@ import {
 import { getFirestore, collection } from "firebase/firestore";
 import "firebase/firestore";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import { getStorage } from "@firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,5 +30,6 @@ const auth = initializeAuth(app, {
 const db = getFirestore(app);
 const userRef = collection(db, "users");
 const roomRef = collection(db, "rooms");
+const storage = getStorage(app);
 
-export { app, auth, db, userRef, roomRef };
+export { app, auth, db, userRef, roomRef,storage };

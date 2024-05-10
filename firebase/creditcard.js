@@ -1,5 +1,5 @@
 import { collection, doc, addDoc, getDocs, getDoc, query, where, updateDoc } from 'firebase/firestore';
-import { db } from './config';
+import { db } from './firebaseConfig';
 
 const creditCardCollection = collection(db, "creditcards");
 

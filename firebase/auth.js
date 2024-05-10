@@ -8,22 +8,31 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { router } from "expo-router";
+import { getUserById } from "./user";
 
 onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    console.log("Authenticated");
-    router.replace("/(tabs)/home");
-  } else {
-    console.log("Not authenticated");
-    router.replace("/(authenticate)/login");
-  }
+  getUserUId().then((id) => {
+    getUserById(id).then((uu) => {
+        console.log("userasas", uu);
+        if (user) {
+          if(user && uu[0].Role==="User"){
+          router.replace("/(tabs)/home");
+          }
+          else {
+            router.replace("/(admin)");
+          }
+          
+        } else {
+          router.replace("/(authenticate)/login");
+        }
+    });
+    
+  });
 });
 
 async function register(name, email, password) {
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-    await addUserData(cred.user.uid, name, email);
-    return cred;
   } catch (error) {
     console.error("Registration Error:", error.message);
     throw error;
@@ -42,16 +51,22 @@ async function login(email, password) {
   }
 }
 
-async function addUserData(uid, name, email) {
+async function addUserData(object) {
   try {
-    await setDoc(doc(db, "users", uid), {
-      name: name,
-      email: email,
-      uid: uid,
-    });
+    await setDoc(doc(db, "users", object.id), object);
   } catch (error) {
     console.error("Add User Data Error:", error.message);
     throw error;
+  }
+}
+
+
+async function getUserUId() {
+  if (auth.currentUser != null) {
+     console.log("this here =", auth.currentUser.uid);
+    return auth.currentUser.uid;
+  } else {
+    return null;
   }
 }
 
@@ -73,4 +88,5 @@ async function logout() {
   }
 }
 
-export { register, login, resetPassword, logout };
+
+export { register, login, resetPassword, logout  , getUserUId , addUserData};

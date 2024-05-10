@@ -6,11 +6,18 @@ import {
   Image,
   TextInput,
   Modal,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import defaultProfileImg from "../../../assets/images/person.png";
+import { getUserUId } from "../../../firebase/auth";
+import { getUserById } from "../../../firebase/user";
+import { db, storage } from "../../../firebase/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
+
 
 const ProfileEdit = () => {
   const [name, setName] = useState("");
@@ -18,14 +25,51 @@ const ProfileEdit = () => {
   const [password, setPassword] = useState("");
   const [image, setImage] = useState(null);
   const [showImagePicker, setShowImagePicker] = useState(false);
-
+  const [usercart, setUserCart] = useState([]);
+ const [balance, setBalance] = useState(0);
   const handleSaveProfile = () => {
     // Here you can save the profile information to your backend or AsyncStorage
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    getUserUId().then((id) => {
+      //console.log(id);
+      getUserById(id).then((user) => {
+        console.log("user",user);
+        setName(user[0].name);
+        setEmail(user[0].email);
+        setImage(user[0].image);
+        setUserCart(user[0].cart);
+        setBalance(user[0].balance);
+      });
+    });
   };
+  useEffect(() => {
+    handleSaveProfile();
+  }, []);
 
+  const uploadImageAsync = async (uri) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+    try {
+      const storageRef = ref(storage, `Images/image-${Date.now()}`);
+      console.log("storageRef", storageRef);
+      const result = await uploadBytes(storageRef, blob);
+      console.log("result", result);
+      blob.close();
+      return await getDownloadURL(storageRef);
+    } catch (error) {
+      console.log(`Error : ${error}`);
+    }
+  };
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -34,14 +78,38 @@ const ProfileEdit = () => {
       quality: 1,
     });
 
-    console.log(result);
+    console.log("result image", result);
 
-    if (!result.cancelled) {
-      setImage(result.assets[0].uri);
-      setShowImagePicker(false); // Hide the image picker modal
+    if (!result.canceled) {
+      const uploadURL = await uploadImageAsync(result.assets[0].uri);
+      setImage(uploadURL);
+    } else {
+      setImage(null);
     }
   };
-
+  const handleUpdate = () => {
+    try {
+      getUserUId().then((id) => {
+        user_id = id;
+        setDoc(doc(db, "users", user_id), {
+          id: id,
+          email,
+          name: name,
+          Role: "User",
+          image,
+          cart: usercart,
+          balance: balance,
+        }).then(() => {
+          Alert.alert(
+            "Profile Updated!",
+            "Your profile has been updated successfully."
+          );
+        });
+      });
+    } catch (err) {
+      console.log(err.massage);
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={{ color: "black", fontSize: 24 }}> My Profile</Text>
@@ -113,7 +181,7 @@ const ProfileEdit = () => {
         />
       </View>
 
-      <TouchableOpacity onPress={handleSaveProfile} style={styles.button}>
+      <TouchableOpacity onPress={handleUpdate} style={styles.button}>
         <Text style={styles.buttonText}>Update</Text>
       </TouchableOpacity>
       {/* Image Picker Modal */}

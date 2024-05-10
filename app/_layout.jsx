@@ -5,6 +5,7 @@ const StackLayout = () => {
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="(authenticate)" options={{ headerShown: false }} />
+      <Stack.Screen name="(admin)" options={{ headerShown: false }} />
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="[id]" options={{ headerShown: true, headerTitle:'Category Details' }} />
       <Stack.Screen name="ProductDetials" options={{ headerShown: false }} />

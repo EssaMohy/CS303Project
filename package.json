@@ -15,7 +15,9 @@
   "dependencies": {
     "@expo-google-fonts/quicksand": "^0.2.3",
     "@expo/vector-icons": "^14.0.1",
+    "@firebase/storage": "^0.12.4",
     "@react-native-async-storage/async-storage": "1.21.0",
+    "@react-native-firebase/storage": "^19.2.2",
     "@react-navigation/drawer": "^6.6.15",
     "@react-navigation/native": "^6.0.2",
     "expo": "~50.0.17",
@@ -37,6 +39,7 @@
     "react-functional": "^3.0.2",
     "react-native": "0.73.6",
     "react-native-gesture-handler": "~2.14.0",
+    "react-native-paper": "^5.12.3",
     "react-native-reanimated": "~3.6.2",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "4.8.2",

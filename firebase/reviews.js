@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
-import { db } from './config';
+import { db } from './firebaseConfig';
 
 reviewCollection = collection(db, "reviews");
 

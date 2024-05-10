@@ -2,10 +2,11 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-const SettingBar = ({ name, iconName }) => {
+const SettingBar = ({ name, iconName , onPress }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
+      onPress={onPress}
       style={{
         width: "90%",
         height: 40,

@@ -16,12 +16,13 @@ import {
   Platform,
   Alert
 } from "react-native";
-import { register } from "../firebase/auth";
+import { addUserData, getUserUId, register } from "../firebase/auth";
 import { router } from "expo-router";
+import { addUser } from "../firebase/user";
 
 const Register = () => {
   // State hooks for form inputs and error handling
-  const [userName, setUserName] = useState("");
+  const [name, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -57,18 +58,33 @@ const Register = () => {
 
   // Handler for the registration process
   const handlePress = async () => {
-   if(!email || !password || !userName){
-      Alert.alert('Register' , "Please fill the required information");
-      return;
+    let isValid=true;
+    if (!name || !email || !password) {
+      isValid=false;
+      Alert.alert("Register", "Please enter the username, email and password");
     }
-    try {
-      const credentials = await register(userName, email, password);
-      console.log("credentials", credentials);
-      router.replace("/(tabs)/home");
-    } catch (error) {
-      console.log("error", JSON.stringify(error));
-      setError(error);
-    }
+    if(isValid) {
+      register( name, email, password)
+      .then(() => {
+        getUserUId().then((id) => {
+          user_id = id;
+          addUserData({
+            id: id,
+            name: name,
+            email: email,
+            Role: "User",
+            image:
+              "https://64.media.tumblr.com/d82d24956974272dff1f745a004a43bf/tumblr_o51oavbMDx1ugpbmuo3_540.png",
+            cart: [],
+            balance: 0,
+          });
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+
+    };
   };
 
   // Handler for returning to the previous screen
@@ -114,7 +130,7 @@ const Register = () => {
           <TextInput
             style={styles.input}
             placeholder="Name"
-            value={userName}
+            value={name}
             onChangeText={setUserName}
           />
         </View>

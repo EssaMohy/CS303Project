@@ -8,16 +8,37 @@ import {
   StatusBar,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
-import { logout } from "../../../firebase/auth";
+import React, { useEffect, useState } from "react";
+import { getUserUId, logout } from "../../../firebase/auth";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 import SettingBar from "../../../components/SettingBar";
+import { getUserById } from "../../../firebase/user";
+import { router } from "expo-router";
 const Profile = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [image, setImage] = useState(null);
+  const [role , setRole]=useState("");
+  const [balance , setBalance]=useState("");
+  useEffect(() => {
+    getUserUId().then((id) => {
+
+      getUserById(id).then((user) => {
+        
+        setName(user[0].name);
+        setEmail(user[0].email);
+        setImage(user[0].image);
+        setRole(user[0].Role);
+        setBalance(user[0].balance);
+      });
+    });
+  }, []);
+
   const handleSignOut = async () => {
     try {
-      await logout(); // Call the signOut function
-      // Handle successful sign out, navigate to login screen or other appropriate action
+      await logout(); 
+      
     } catch (error) {
       console.log("Error signing out:", error);
     }
@@ -44,7 +65,7 @@ const Profile = () => {
       >
         <View style={{ padding: 5 }}>
           <Image
-            source={require("../../../assets/images/person.png")}
+            source={{uri: image}}
             style={{
               width: 130,
               height: 130,
@@ -64,17 +85,16 @@ const Profile = () => {
           }}
         />
         <View style={{ padding: 5, marginVertical: "20%" }}>
-          <Text style={{ color: "#222222", fontSize: 16 }}>Joined</Text>
-          <Text style={{ color: "#9C9C9C", fontSize: 16 }}>2 mon ago</Text>
+          <Text style={{ color: "#222222", fontSize: 16 }}>{role}</Text>
+          <Text style={{ color: "#9C9C9C", fontSize: 16 }}>${balance}</Text>
         </View>
       </View>
       <View style={{ padding: 25 }}>
-        <Text style={{ color: "#222222", fontSize: 18 }}>Hoang Toddy</Text>
-        <Text style={{ color: "#9C9C9C", fontSize: 14 }}>Trinh Huu</Text>
+        <Text style={{ color: "#222222", fontSize: 18 }}>{name}</Text>
       </View>
-      <SettingBar name={"My info"} iconName={"info"} />
-      <SettingBar name={"Setting"} iconName={"settings"} />
-      <SettingBar name={"policy"} iconName={"policy"} />
+      <SettingBar name={"My Profile"} iconName={"info"} onPress={() => router.navigate("/(tabs)/profile/ProfileEdit")} />
+      <SettingBar name={"Setting"} iconName={"settings"} onPress={() => {}} />
+      <SettingBar name={"policy"} iconName={"policy"}    onPress={() => {}} />
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={handleSignOut}
