@@ -1,7 +1,20 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity, ScrollView, Image, TextInput, Modal, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  TextInput,
+  Modal,
+  ImageBackground,
+} from "react-native";
 import React, { useState } from "react";
 import { logout } from "../../../firebase/auth";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
+import { Ionicons } from "@expo/vector-icons";
+import defaultProfileImg from "../../../assets/images/person.png";
 
 const Profile = () => {
   const handleSignOut = async () => {
@@ -13,17 +26,17 @@ const Profile = () => {
     }
   };
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [image, setImage] = useState(null);
   const [showImagePicker, setShowImagePicker] = useState(false);
 
   const handleSaveProfile = () => {
     // Here you can save the profile information to your backend or AsyncStorage
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Password:', password);
+    console.log("Name:", name);
+    console.log("Email:", email);
+    console.log("Password:", password);
   };
 
   const pickImage = async () => {
@@ -46,38 +59,72 @@ const Profile = () => {
     <View style={styles.container}>
       <Text style={{ color: "black", fontSize: 24 }}> My Profile</Text>
 
-      <TouchableOpacity onPress={() => setShowImagePicker(true)} style={styles.addButton}>
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity>
+      <View style={styles.outerWrapper}>
+        {image ? (
+          <View style={styles.imageContainer}>
+            <Image source={{ uri: image }} style={styles.image} />
+          </View>
+        ) : (
+          <View style={styles.imageContainer}>
+            <Image source={defaultProfileImg} style={styles.image} />
+          </View>
+        )}
+        <TouchableOpacity
+          onPress={() => setShowImagePicker(true)}
+          style={styles.plusIcon}
+        >
+          <Text style={styles.plusIconText}>+</Text>
+        </TouchableOpacity>
+      </View>
 
-      {image && 
-        <View style={styles.imageContainer}>
-    <Image source={{ uri: image }} style={styles.image} />
-  </View>
-      }
+      <View style={styles.inputContainer}>
+        <Ionicons
+          name="person-outline"
+          size={24}
+          color="#FCC873"
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          value={name}
+          onChangeText={setName}
+          placeholderTextColor="#999"
+        />
+      </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+      <View style={styles.inputContainer}>
+        <Ionicons
+          name="mail-outline"
+          size={24}
+          color="#FCC873"
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          placeholderTextColor="#999"
+          keyboardType="email-address"
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Ionicons
+          name="lock-closed-outline"
+          size={24}
+          color="#FCC873"
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          placeholderTextColor="#999"
+          secureTextEntry
+        />
+      </View>
 
       <TouchableOpacity onPress={handleSaveProfile} style={styles.button}>
         <Text style={styles.buttonText}>Update</Text>
@@ -88,16 +135,17 @@ const Profile = () => {
       </TouchableOpacity>
 
       {/* Image Picker Modal */}
-      <Modal
-        visible={showImagePicker}
-        animationType="slide"
-        transparent={true}
-      >
+      <Modal visible={showImagePicker} animationType="slide" transparent={true}>
         <View style={styles.imagePickerModal}>
           <TouchableOpacity onPress={pickImage} style={styles.pickImageButton}>
-            <Text style={styles.pickImageButtonText}>Pick an image from camera roll</Text>
+            <Text style={styles.pickImageButtonText}>
+              Change profile picture
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setShowImagePicker(false)} style={styles.cancelButton}>
+          <TouchableOpacity
+            onPress={() => setShowImagePicker(false)}
+            style={styles.cancelButton}
+          >
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
@@ -111,90 +159,122 @@ export default Profile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center",
     paddingTop: 20,
-    paddingBottom: 80,
-    backgroundColor: '#f0f0f0', // Off-white background color
+    paddingBottom: 75,
+    backgroundColor:"white", // Off-white background color
+    borderTopLeftRadius: 30, // Adjust the radius as needed
+    borderTopRightRadius: 30, // Adjust the radius as needed
+  },
+  outerWrapper: {
+    padding: 15, // This padding allows the plus icon to overlap the image
+    justifyContent: "center",
+    alignItems: "center",
   },
   image: {
-    width: 170,
-    height: 170,
-    borderRadius:20,
+    width: "100%",
+    height: "100%",
+    borderRadius: 85,
   },
   imageContainer: {
     width: 170,
     height: 170,
     borderRadius: 85,
-    overflow: 'hidden',
-    borderWidth: .75,  // Add this to check if the container is rendered
-    borderColor: '#FCC873', // Add this to check if the container is rendered
+    overflow: "hidden",
+    borderWidth: 0.5,
+    borderColor: "#FCC873",
+    justifyContent: "center", // Center horizontally
+    alignItems: "center", // Center vertically
+    position: "relative",
   },
-  addButton: {
-    position: 'absolute',
-    top: 20,
-    right: 10,
-    backgroundColor: '#FCC873',
-    borderRadius: 20,
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+  plusIcon: {
+    position: "absolute",
+    bottom: 16, // Position the plus button to overlap the profile picture at the bottom
+    right: 33, // Position the plus button to overlap the profile picture on the right
+    backgroundColor: "#FCC873",
+    borderRadius: 18, // Make the plus button circular
+    width: 33, // Adjust the size of the plus button
+    height: 33, // Adjust the size of the plus button
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 3,
+    borderColor: "#f0f0f0",
   },
-  addButtonText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'black',
+  plusIconText: {
+    color: "#f0f0f0",
+    fontSize: 28,
+    lineHeight: 30, // Center the plus icon vertically
   },
   input: {
-    width: '80%',
+    width: "90%",
     height: 50,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    borderRadius: 14,
-    paddingLeft: 15,
-    marginBottom: 10,
+    backgroundColor: "#fff",
+    borderRadius: 25,
+    paddingLeft: 45,
+    marginBottom: 3,
+    fontSize: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderColor: "#ddd", // Light grey border color
     borderWidth: 1,
-    borderColor: '#FCC873',
   },
   button: {
-    width: '60%',
+    width: "80%",
     height: 50,
-    backgroundColor: '#FCC873',
-    borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#FCC873", // iOS blue button color
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 20,
   },
   buttonText: {
-    color: 'black',
+    color: "#fff",
     fontSize: 18,
+    fontWeight: "600",
   },
   imagePickerModal: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   pickImageButton: {
-    backgroundColor: '#FCC873',
+    backgroundColor: "#FCC873",
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,
-    
   },
   pickImageButtonText: {
-    color: 'black',
+    color: "black",
     fontSize: 16,
-    fontWeight:'bold',
+    fontWeight: "bold",
   },
   cancelButton: {
-    backgroundColor: '#FCC873',
+    backgroundColor: "#FCC873",
     padding: 10,
     borderRadius: 10,
   },
   cancelButtonText: {
-    color: 'black',
+    color: "black",
     fontSize: 16,
-    fontWeight:'bold',
+    fontWeight: "bold",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    position: "relative", // Add this line
+  },
+  icon: {
+    position: "absolute",
+    left: 15,
+    zIndex: 1, // Ensure the icon is above the TextInput
   },
 });

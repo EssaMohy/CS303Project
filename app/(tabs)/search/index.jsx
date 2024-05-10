@@ -16,5 +16,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor:"white",
+    borderTopLeftRadius: 30, // Adjust the radius as needed
+    borderTopRightRadius: 30, // Adjust the radius as needed
   },
 });

@@ -49,6 +49,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
+    borderTopLeftRadius: 30, // Adjust the radius as needed
+    borderTopRightRadius: 30, // Adjust the radius as needed
+    backgroundColor:"white",
   },
   headingtxt: {
     fontSize: 35,

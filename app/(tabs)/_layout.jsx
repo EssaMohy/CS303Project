@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Keyboard,
-  StatusBar,
-  colorScheme,
-} from "react-native";
+import { StyleSheet, Text, View , Keyboard , StatusBar , colorScheme} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,30 +24,36 @@ export default function Layout() {
     };
   }, []);
   return (
-    <>
-      <StatusBar
-        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
-      />
-      <Tabs
-        screenOptions={{
-          tabBarShowLabel: false,
-          tabBarActiveTintColor: "#233B6F",
-          tabBarStyle: {
-            position: "absolute",
-            bottom: 25,
-            left: 20,
-            right: 20,
-            backgroundColor: "#FCC873",
-            borderRadius: 20,
-            height: 60,
-            opacity: isKeyboardVisible ? 0 : 1,
-          },
-          headerTitleAlign: "center",
-          headerTitle: "EON",
-          headerStyle: {
-            backgroundColor: "transparent",
-          },
-        }}
+    <> 
+      <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content' } />
+    <Tabs
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: "#233B6F",
+        tabBarStyle: {
+          position: "absolute",
+          bottom: 25,
+          left: 20,
+          right: 20,
+          backgroundColor: "#FCC873",
+          borderRadius: 20,
+          height: 60,
+          opacity: isKeyboardVisible ? 0 : 1,
+        },
+        headerTitleAlign: "center",
+        headerTitle: "EON",
+        headerStyle: {
+          backgroundColor: "transparent",
+          borderBottomLeftRadius: 30, // Adjust the radius as needed
+          borderBottomRightRadius: 30, // Adjust
+        },
+        headerShadowVisible: false,
+        headerTitle: "EON",
+        headerStyle: {
+          backgroundColor: "transparent",
+          height: 85,
+        },
+      }}
       >
         <Tabs.Screen
           name="home"
