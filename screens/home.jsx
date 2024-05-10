@@ -30,9 +30,8 @@ const Home = () => {
       <Text> </Text>
       <Text> </Text>
       <Text> </Text>
-    
-
-
+      <Text> </Text>
+      <Text> </Text>
     </ScrollView>
   );
 };
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderTopLeftRadius: 30, // Adjust the radius as needed
     borderTopRightRadius: 30, // Adjust the radius as needed
-    backgroundColor:"white",
+    backgroundColor: "white",
   },
   headingtxt: {
     fontSize: 35,
