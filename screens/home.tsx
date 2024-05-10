@@ -31,7 +31,7 @@ const home = () => {
       ></Image>
       <Text style={styles.headingtxt2}>Search by brand</Text>
       <Brands></Brands>
-      <Text style={styles.headingtxt2}>Latest Products</Text>
+      <Text style={styles.headingtxt2}>Lastest Products</Text>
       <Listings listings={ListingData} category={category}></Listings>
 
       <Text> </Text>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   headingtxt2: {
     fontSize: 20,
-    fontWeight: "400",
+    fontWeight: "600",
     color: "black",
   },
   image: {

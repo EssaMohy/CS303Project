@@ -31,7 +31,7 @@ const CategoryButtons = ({onCategoryChanged}:props) => {
   return (
     <View>
       <ScrollView
-        horizontal ref={scrollRef} // Attach ref to ScrollView
+        horizontal ref={scrollRef} 
         contentContainerStyle={{
           gap: 10,
           paddingVertical: 10,

@@ -10,10 +10,11 @@ import React, { useRef, useState } from "react";
 import brands from "../data/brands";
 
 export default function Brands() {
+  const scrollRef = useRef<ScrollView>(null);
   return (
     <View>
-      <ScrollView
-        horizontal
+     <ScrollView
+        horizontal ref={scrollRef} 
         contentContainerStyle={{
           gap: 10,
           paddingVertical: 10,
@@ -35,10 +36,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 300,
+    height: 120,
     borderRadius: 10,
     marginTop: 10,
     marginBottom: 10,
+    resizeMode:'stretch'
   },
 });
