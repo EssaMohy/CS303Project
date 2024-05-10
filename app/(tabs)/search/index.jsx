@@ -1,58 +1,69 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, SafeAreaView,Keyboard,StatusBar, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Keyboard,
+  StatusBar,
+  StyleSheet,
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { TextInput } from "react-native";
 import { FlatList } from "react-native";
 import SearchCard from "../../../components/SearchCard";
-const search = ({search}) => {
+const search = ({ search }) => {
   const data = [
     {
-      image: "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
+      image:
+        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
       name: "Rolex Submariner",
       type: "Eng | Fiction | 2h10m",
       price: "100",
       id: 1,
     },
     {
-      image: "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
+      image:
+        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
       name: "Harry Potter 2",
       type: "Eng | Fiction | 2h10m",
       price: "100",
       id: 2,
     },
     {
-      image: "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
+      image:
+        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
       name: "Harry Potter 3",
       type: "Eng | Fiction | 2h10m",
       price: "100",
       id: 3,
     },
     {
-      image:"https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
+      image:
+        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
       name: "Harry Potter 4",
       type: "Eng | Fiction | 2h10m",
       price: "100",
       id: 4,
     },
     {
-      image:"https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
+      image:
+        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
       name: "Harry Potter 5",
       type: "Eng | Fiction | 2h10m",
       price: "100",
       id: 5,
     },
     {
-      image:"https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
+      image:
+        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
       name: "Harry Potter 6",
       type: "Eng | Fiction | 2h10m",
       price: "100",
       id: 6,
-    }
+    },
   ];
   return (
-    <SafeAreaView
-    style={{  flex: 1, backgroundColor: "white"  }}
-  >
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <View
         style={{
           flexDirection: "row",
@@ -112,7 +123,7 @@ const search = ({search}) => {
           )}
         </View>
       </View>
-        <View style={{ flex: 1, }}>
+      <View style={{ flex: 1 }}>
         <FlatList
           data={data}
           showsHorizontalScrollIndicator={false}
@@ -126,10 +137,9 @@ const search = ({search}) => {
             />
           )}
         />
-        </View>
-        <View style={{ height:100}}></View>
-
-  </SafeAreaView>
+      </View>
+      <View style={{ height: 100 }}></View>
+    </SafeAreaView>
   );
 };
 
@@ -140,7 +150,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor:"white",
+    backgroundColor: "white",
     borderTopLeftRadius: 30, // Adjust the radius as needed
     borderTopRightRadius: 30, // Adjust the radius as needed
   },

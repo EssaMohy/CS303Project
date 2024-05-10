@@ -2,20 +2,17 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
-  TouchableOpacity,
-  ScrollView,
   Image,
-  TextInput,
-  Modal,
-  ImageBackground,
+
+  SafeAreaView,
+  Platform,
+  StatusBar,
 } from "react-native";
 import React, { useState } from "react";
 import { logout } from "../../../firebase/auth";
 import * as ImagePicker from "expo-image-picker";
-import { Ionicons } from "@expo/vector-icons";
-import defaultProfileImg from "../../../assets/images/person.png";
-
+import { AntDesign } from "@expo/vector-icons";
+import SettingBar from "../../../components/SettingBar";
 const Profile = () => {
   const handleSignOut = async () => {
     try {
@@ -56,101 +53,165 @@ const Profile = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={{ color: "black", fontSize: 24 }}> My Profile</Text>
+    // <View style={styles.container}>
+    //   <Text style={{ color: "black", fontSize: 24 }}> My Profile</Text>
 
-      <View style={styles.outerWrapper}>
-        {image ? (
-          <View style={styles.imageContainer}>
-            <Image source={{ uri: image }} style={styles.image} />
-          </View>
-        ) : (
-          <View style={styles.imageContainer}>
-            <Image source={defaultProfileImg} style={styles.image} />
-          </View>
-        )}
-        <TouchableOpacity
-          onPress={() => setShowImagePicker(true)}
-          style={styles.plusIcon}
-        >
-          <Text style={styles.plusIconText}>+</Text>
-        </TouchableOpacity>
-      </View>
+    //   <View style={styles.outerWrapper}>
+    //     {image ? (
+    //       <View style={styles.imageContainer}>
+    //         <Image source={{ uri: image }} style={styles.image} />
+    //       </View>
+    //     ) : (
+    //       <View style={styles.imageContainer}>
+    //         <Image source={defaultProfileImg} style={styles.image} />
+    //       </View>
+    //     )}
+    //     <TouchableOpacity
+    //       onPress={() => setShowImagePicker(true)}
+    //       style={styles.plusIcon}
+    //     >
+    //       <Text style={styles.plusIconText}>+</Text>
+    //     </TouchableOpacity>
+    //   </View>
 
-      <View style={styles.inputContainer}>
-        <Ionicons
-          name="person-outline"
-          size={24}
-          color="#FCC873"
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          value={name}
-          onChangeText={setName}
-          placeholderTextColor="#999"
-        />
-      </View>
+    //   <View style={styles.inputContainer}>
+    //     <Ionicons
+    //       name="person-outline"
+    //       size={24}
+    //       color="#FCC873"
+    //       style={styles.icon}
+    //     />
+    //     <TextInput
+    //       style={styles.input}
+    //       placeholder="Name"
+    //       value={name}
+    //       onChangeText={setName}
+    //       placeholderTextColor="#999"
+    //     />
+    //   </View>
 
-      <View style={styles.inputContainer}>
-        <Ionicons
-          name="mail-outline"
-          size={24}
-          color="#FCC873"
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          placeholderTextColor="#999"
-          keyboardType="email-address"
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Ionicons
-          name="lock-closed-outline"
-          size={24}
-          color="#FCC873"
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          placeholderTextColor="#999"
-          secureTextEntry
-        />
-      </View>
+    //   <View style={styles.inputContainer}>
+    //     <Ionicons
+    //       name="mail-outline"
+    //       size={24}
+    //       color="#FCC873"
+    //       style={styles.icon}
+    //     />
+    //     <TextInput
+    //       style={styles.input}
+    //       placeholder="Email"
+    //       value={email}
+    //       onChangeText={setEmail}
+    //       placeholderTextColor="#999"
+    //       keyboardType="email-address"
+    //     />
+    //   </View>
+    //   <View style={styles.inputContainer}>
+    //     <Ionicons
+    //       name="lock-closed-outline"
+    //       size={24}
+    //       color="#FCC873"
+    //       style={styles.icon}
+    //     />
+    //     <TextInput
+    //       style={styles.input}
+    //       placeholder="Password"
+    //       value={password}
+    //       onChangeText={setPassword}
+    //       placeholderTextColor="#999"
+    //       secureTextEntry
+    //     />
+    //   </View>
 
-      <TouchableOpacity onPress={handleSaveProfile} style={styles.button}>
-        <Text style={styles.buttonText}>Update</Text>
-      </TouchableOpacity>
+    //   <TouchableOpacity onPress={handleSaveProfile} style={styles.button}>
+    //     <Text style={styles.buttonText}>Update</Text>
+    //   </TouchableOpacity>
 
-      <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
+    //   <TouchableOpacity onPress={handleSignOut} style={styles.button}>
+    //     <Text style={styles.buttonText}>Logout</Text>
+    //   </TouchableOpacity>
 
-      {/* Image Picker Modal */}
-      <Modal visible={showImagePicker} animationType="slide" transparent={true}>
-        <View style={styles.imagePickerModal}>
-          <TouchableOpacity onPress={pickImage} style={styles.pickImageButton}>
-            <Text style={styles.pickImageButtonText}>
-              Change profile picture
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setShowImagePicker(false)}
-            style={styles.cancelButton}
-          >
-            <Text style={styles.cancelButtonText}>Cancel</Text>
-          </TouchableOpacity>
+    //   {/* Image Picker Modal */}
+    //   <Modal visible={showImagePicker} animationType="slide" transparent={true}>
+    //     <View style={styles.imagePickerModal}>
+    //       <TouchableOpacity onPress={pickImage} style={styles.pickImageButton}>
+    //         <Text style={styles.pickImageButtonText}>
+    //           Change profile picture
+    //         </Text>
+    //       </TouchableOpacity>
+    //       <TouchableOpacity
+    //         onPress={() => setShowImagePicker(false)}
+    //         style={styles.cancelButton}
+    //       >
+    //         <Text style={styles.cancelButtonText}>Cancel</Text>
+    //       </TouchableOpacity>
+    //     </View>
+    //   </Modal>
+    // </View>
+    <SafeAreaView
+      style={{ flex: 1, paddingTop: 5, backgroundColor: "white" ,borderTopLeftRadius: 30, // Adjust the radius as needed
+      borderTopRightRadius: 30, }}
+    >
+      <View
+        style={{
+          width: "80%",
+          height: 160,
+          marginHorizontal: "10%",
+          marginTop: 20,
+          flexDirection: "row",
+        }}
+      >
+        <View style={{ padding: 5 }}>
+          <Image
+            source={require("../../../assets/images/person.png")}
+            style={{
+              width: 130,
+              height: 130,
+              borderRadius: 999,
+              marginVertical: 15,
+            }}
+          />
         </View>
-      </Modal>
-    </View>
+        <View
+          style={{
+            borderRightWidth: 2,
+            borderRightColor: "#9C9C9C",
+            marginHorizontal: "5%",
+            padding: 10,
+            height: "80%",
+            marginVertical: "10%",
+          }}
+        />
+        <View style={{ padding: 5, marginVertical: "20%" }}>
+          <Text style={{ color: "#222222", fontSize: 16 }}>Joined</Text>
+          <Text style={{ color: "#9C9C9C", fontSize: 16 }}>2 mon ago</Text>
+        </View>
+      </View>
+      <View style={{ padding: 25 }}>
+        <Text style={{ color: "#222222", fontSize: 18 }}>Hoang Toddy</Text>
+        <Text style={{ color: "#9C9C9C", fontSize: 14 }}>Trinh Huu</Text>
+      </View>
+      <SettingBar name={"My info"} iconName={"info"} />
+      <SettingBar name={"Setting"} iconName={"settings"} />
+      <SettingBar name={"policy"} iconName={"policy"} />
+      <View
+        style={{
+          width: "35%",
+          height: 40,
+          backgroundColor: "gray",
+          marginHorizontal: "5%",
+          borderRadius: 999,
+          flexDirection: "row",
+          marginVertical: 30,
+          padding: 10,
+        }}
+      >
+        <AntDesign name="logout" size={20} color="red" />
+        <View style={{ marginLeft: 8 }}>
+          <Text style={{ color: "#fff", fontSize: 16 }}>Sign Out</Text>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -161,7 +222,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    paddingTop: 20,
+    paddingTop: Platform.OS === "android" ?StatusBar.currentHeight : 0,
     paddingBottom: 75,
     backgroundColor:"white", // Off-white background color
     borderTopLeftRadius: 30, // Adjust the radius as needed

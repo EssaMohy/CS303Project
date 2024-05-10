@@ -39,8 +39,7 @@ export default function Layout() {
           height: 60,
           opacity: isKeyboardVisible ? 0 : 1,
         },
-        headerTitleAlign: "center",
-        headerTitle: "EON",
+        headerShown:false,
         headerStyle: {
           backgroundColor: "transparent",
           borderBottomLeftRadius: 30, // Adjust the radius as needed
