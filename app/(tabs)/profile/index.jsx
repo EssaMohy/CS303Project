@@ -3,10 +3,10 @@ import {
   Text,
   View,
   Image,
-
   SafeAreaView,
   Platform,
   StatusBar,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import { logout } from "../../../firebase/auth";
@@ -23,134 +23,15 @@ const Profile = () => {
     }
   };
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [image, setImage] = useState(null);
-  const [showImagePicker, setShowImagePicker] = useState(false);
-
-  const handleSaveProfile = () => {
-    // Here you can save the profile information to your backend or AsyncStorage
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Password:", password);
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.assets[0].uri);
-      setShowImagePicker(false); // Hide the image picker modal
-    }
-  };
-
   return (
-    // <View style={styles.container}>
-    //   <Text style={{ color: "black", fontSize: 24 }}> My Profile</Text>
-
-    //   <View style={styles.outerWrapper}>
-    //     {image ? (
-    //       <View style={styles.imageContainer}>
-    //         <Image source={{ uri: image }} style={styles.image} />
-    //       </View>
-    //     ) : (
-    //       <View style={styles.imageContainer}>
-    //         <Image source={defaultProfileImg} style={styles.image} />
-    //       </View>
-    //     )}
-    //     <TouchableOpacity
-    //       onPress={() => setShowImagePicker(true)}
-    //       style={styles.plusIcon}
-    //     >
-    //       <Text style={styles.plusIconText}>+</Text>
-    //     </TouchableOpacity>
-    //   </View>
-
-    //   <View style={styles.inputContainer}>
-    //     <Ionicons
-    //       name="person-outline"
-    //       size={24}
-    //       color="#FCC873"
-    //       style={styles.icon}
-    //     />
-    //     <TextInput
-    //       style={styles.input}
-    //       placeholder="Name"
-    //       value={name}
-    //       onChangeText={setName}
-    //       placeholderTextColor="#999"
-    //     />
-    //   </View>
-
-    //   <View style={styles.inputContainer}>
-    //     <Ionicons
-    //       name="mail-outline"
-    //       size={24}
-    //       color="#FCC873"
-    //       style={styles.icon}
-    //     />
-    //     <TextInput
-    //       style={styles.input}
-    //       placeholder="Email"
-    //       value={email}
-    //       onChangeText={setEmail}
-    //       placeholderTextColor="#999"
-    //       keyboardType="email-address"
-    //     />
-    //   </View>
-    //   <View style={styles.inputContainer}>
-    //     <Ionicons
-    //       name="lock-closed-outline"
-    //       size={24}
-    //       color="#FCC873"
-    //       style={styles.icon}
-    //     />
-    //     <TextInput
-    //       style={styles.input}
-    //       placeholder="Password"
-    //       value={password}
-    //       onChangeText={setPassword}
-    //       placeholderTextColor="#999"
-    //       secureTextEntry
-    //     />
-    //   </View>
-
-    //   <TouchableOpacity onPress={handleSaveProfile} style={styles.button}>
-    //     <Text style={styles.buttonText}>Update</Text>
-    //   </TouchableOpacity>
-
-    //   <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-    //     <Text style={styles.buttonText}>Logout</Text>
-    //   </TouchableOpacity>
-
-    //   {/* Image Picker Modal */}
-    //   <Modal visible={showImagePicker} animationType="slide" transparent={true}>
-    //     <View style={styles.imagePickerModal}>
-    //       <TouchableOpacity onPress={pickImage} style={styles.pickImageButton}>
-    //         <Text style={styles.pickImageButtonText}>
-    //           Change profile picture
-    //         </Text>
-    //       </TouchableOpacity>
-    //       <TouchableOpacity
-    //         onPress={() => setShowImagePicker(false)}
-    //         style={styles.cancelButton}
-    //       >
-    //         <Text style={styles.cancelButtonText}>Cancel</Text>
-    //       </TouchableOpacity>
-    //     </View>
-    //   </Modal>
-    // </View>
     <SafeAreaView
-      style={{ flex: 1, paddingTop: 5, backgroundColor: "white" ,borderTopLeftRadius: 30, // Adjust the radius as needed
-      borderTopRightRadius: 30, }}
+      style={{
+        flex: 1,
+        paddingTop: 5,
+        backgroundColor: "white",
+        borderTopLeftRadius: 30, // Adjust the radius as needed
+        borderTopRightRadius: 30,
+      }}
     >
       <View
         style={{
@@ -194,7 +75,9 @@ const Profile = () => {
       <SettingBar name={"My info"} iconName={"info"} />
       <SettingBar name={"Setting"} iconName={"settings"} />
       <SettingBar name={"policy"} iconName={"policy"} />
-      <View
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={handleSignOut}
         style={{
           width: "35%",
           height: 40,
@@ -210,7 +93,7 @@ const Profile = () => {
         <View style={{ marginLeft: 8 }}>
           <Text style={{ color: "#fff", fontSize: 16 }}>Sign Out</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -222,9 +105,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    paddingTop: Platform.OS === "android" ?StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingBottom: 75,
-    backgroundColor:"white", // Off-white background color
+    backgroundColor: "white", // Off-white background color
     borderTopLeftRadius: 30, // Adjust the radius as needed
     borderTopRightRadius: 30, // Adjust the radius as needed
   },
@@ -339,3 +222,4 @@ const styles = StyleSheet.create({
     zIndex: 1, // Ensure the icon is above the TextInput
   },
 });
+
