@@ -8,8 +8,7 @@ import {
   Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { ListingType } from "@/app/types/listingTypes";
-import Colors from "@/constants/colors";
+import Colors from "../constants/colors";
 import { Link } from "expo-router";
 
 
