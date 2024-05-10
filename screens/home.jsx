@@ -1,27 +1,21 @@
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import React, { useState } from "react";
 import CategoryButtons from "../components/CategoryButtons";
-import Listings from "@/components/Listings";
-import ListingData from "@/data/destinations.json";
-import Brands from "@/components/brands";
-
-const home = () => {
-  const [category, setCategory] = useState<string>("Trending");
-
-  const onCatChanged = (category: string) => {
+import Listings from "../components/Listings";
+import ListingData from "../data/destinations.json";
+import Brands from "../components/brands";
+const Home = () => {
+  const [category, setCategory] = useState("Trending");
+  const onCatChanged = (category) => {
     console.log("Category: ", category);
     setCategory(category);
   };
-
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.headingtxt}>Hello</Text>
       <Text style={styles.headingtxt2}>Choose your top brands</Text>
-
       <CategoryButtons onCategoryChanged={onCatChanged}></CategoryButtons>
-
       <Listings listings={ListingData} category={category}></Listings>
-
       <Text style={styles.headingtxt2}>Top Deals</Text>
       <Image
         source={{
@@ -31,20 +25,18 @@ const home = () => {
       ></Image>
       <Text style={styles.headingtxt2}>Search by brand</Text>
       <Brands></Brands>
-      <Text style={styles.headingtxt2}>Lastest Products</Text>
+      <Text style={styles.headingtxt2}>Latest Products</Text>
       <Listings listings={ListingData} category={category}></Listings>
+      <Text> </Text>
+      <Text> </Text>
+      <Text> </Text>
+    
 
-      <Text> </Text>
-      <Text> </Text>
-      <Text> </Text>
-      <Text> </Text>
-      <Text> </Text>
+
     </ScrollView>
   );
 };
-
-export default home;
-
+export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -61,7 +53,7 @@ const styles = StyleSheet.create({
   },
   headingtxt2: {
     fontSize: 20,
-    fontWeight: "600",
+    fontWeight: "400",
     color: "black",
   },
   image: {

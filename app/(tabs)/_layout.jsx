@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
-import colors from "@/constants/colors";
 
 export default function Layout() {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);

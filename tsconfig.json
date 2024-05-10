@@ -3,18 +3,21 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/": [
+        "./"
+      ]
     }
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
+    "/*.ts",
+    "/.tsx",
+    ".expo/types/**/.ts",
     "expo-env.d.ts",
     "screens/home.tsx",
     "components/brands.jsx",
     "components/Listings.jsx",
     "components/categoryDetails.jsx",
-    "components/CategoryButtons.jsx"
+    "components/CategoryButtons.jsx",
+    ".expo/types/**/*.ts",
   ]
 }
