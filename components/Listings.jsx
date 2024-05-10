@@ -12,17 +12,14 @@ import { ListingType } from "@/app/types/listingTypes";
 import Colors from "@/constants/colors";
 import { Link } from "expo-router";
 
-type props = {
-  listings: any[];
-  category: string;
-};
 
-const Listings = ({ listings, category }: props) => {
+
+const Listings = ({ listings, category }) => {
   const [loading, setLoading] = useState(false);
 
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState([]);
 
-  const handleAddToCart = (item: any) => {
+  const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
   };
 
@@ -35,11 +32,9 @@ const Listings = ({ listings, category }: props) => {
     }, 200);
   }, [category]);
 
-  const renderItems: ListRenderItem<ListingType> = ({
+  const renderItems = ({
     item,
-  }: {
-    item: any;
-  }) => {
+  } ) => {
     return (
       <Link href={`/listing/${item.id}`} asChild>
         <View style={styles.item}>

@@ -10,7 +10,7 @@ import React, { useRef, useState } from "react";
 import brands from "../data/brands";
 
 export default function Brands() {
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef(null);
   return (
     <View>
      <ScrollView
