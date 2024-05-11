@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import { addProduct } from "../../firebase/products";
 
 const AddProductsScreen = () => {
   const [productName, setProductName] = useState("");
@@ -19,33 +20,9 @@ const AddProductsScreen = () => {
   const [quantity, setquantity] = useState(0);
   const [success, setSuccess] = useState(false);
 
-  function handlePrices() {
-    let prices = price.trim();
-    prices = prices.split(" ");
-    if (prices.length != 3) {
-      alert(
-        "Prices must be three values one for Small, Medium and Large sizes"
-      );
-      return false;
-    }
-    prices.forEach((price) => {
-      if (isNaN(price)) {
-        alert(
-          "Prices must be three values one for Small, Medium and Large sizes"
-        );
-        return false;
-      }
-    });
-    prices = prices.map((str) => {
-      return parseInt(str);
-    });
-    return prices;
-  }
+  
 
   const handleAddProduct = () => {
-    const price = handlePrices();
-
-    if (price) {
       addProduct({
         productName,
         image,
@@ -53,10 +30,11 @@ const AddProductsScreen = () => {
         type,
         details,
         quantity,
+      }).then(() => {
+        alert("product added successfully");
+      }).catch((error) => {
+        console.log("error", error);
       });
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 2000);
-    }
   };
   return (
     <>

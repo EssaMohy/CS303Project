@@ -1,89 +1,86 @@
 import {
-    Alert,
-    KeyboardAvoidingView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    Image,
-    StatusBar,
-    ScrollView,
-    FlatList,
-  } from "react-native";
-  import React, { useState, useEffect } from "react";
-  import Entypo from "react-native-vector-icons/Entypo";
+  Alert,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Image,
+  StatusBar,
+  ScrollView,
+  FlatList,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import Entypo from "react-native-vector-icons/Entypo";
 
-  import Button from "../../components/Button";
-  import Input from "../../components/Input";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 import { getProductByName } from "../../firebase/products";
 import { db } from "../../firebase/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 
 const EditProductScreen = () => {
-    const [oldProductName, setOldProductName] = useState("");
-    const [productName, setProductName] = useState("");
-    const [imageURL, setImageURL] = useState("");
-    const [price, setPrice] = useState("");
-    const [type, setType] = useState("");
-    const [details, setDetails] = useState("");
-    const handleEditProduct = async () => {
-        const object = await getProductByName(oldProductName);
-        try {
-          setDoc(doc(db, "products", object.id), {
-            productName,
-            imageURL,
-            price,
-            type,
-            details,
-          });
-          alert("edit done on Product with old Product name : " + oldProductName);
-        } catch (err) {
-          alert(err.massage);
-        }
-      };
+  const [oldProductName, setOldProductName] = useState("");
+  const [productName, setProductName] = useState("");
+  const [imageURL, setImageURL] = useState("");
+  const [price, setPrice] = useState("");
+  const [type, setType] = useState("");
+  const [details, setDetails] = useState("");
+  const handleEditProduct = async () => {
+    const object = await getProductByName(oldProductName);
+    try {
+      setDoc(doc(db, "products", object.id), {
+        productName,
+        imageURL,
+        price,
+        type,
+        details,
+      });
+      alert("edit done on Product with old Product name : " + oldProductName);
+    } catch (err) {
+      alert(err.massage);
+    }
+  };
   return (
     <ScrollView>
-    <View style={styles.container} behavior={"padding"}>
-    <View
-      style={{
-        width: "15%",
-        fontSize: 18,
-        color:  "#B9B9B9",
-        padding: 12,
-        borderRadius: 10,
-        marginRight:400
-      }}
-    >
-      <TouchableOpacity>
-        <Entypo
-         name="chevron-thin-left"
+      <View style={styles.container} behavior={"padding"}>
+        <View
+          style={{
+            width: "15%",
+            fontSize: 18,
+            color: "#B9B9B9",
+            padding: 12,
+            borderRadius: 10,
+            marginRight: 400,
+          }}
+        >
+          <TouchableOpacity>
+            <Entypo
+              name="chevron-thin-left"
+              style={{
+                fontSize: 18,
+                color: "black",
+                padding: 12,
+                borderRadius: 10,
+                backgroundColor: "#F0F0F3",
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.inputContainer}>
+          <Text
+            style={{
+              fontSize: 26,
+              color: "black",
+              fontWeight: "500",
+              letterSpacing: 1,
+            }}
+          >
+            Product Name You Want To Edit
+          </Text>
 
-         style={{
-           fontSize: 18,
-           color: "black",
-           padding: 12,
-           borderRadius: 10,
-           backgroundColor: "#F0F0F3",
-           
-         }}
-      
-        />
-      </TouchableOpacity>
-    </View>
-    <View style={styles.inputContainer}>
-      <Text
-        style={{
-          fontSize: 26,
-          color: "black",
-          fontWeight: "500",
-          letterSpacing: 1,
-        }}
-      >
-        Product Name You Want To Edit
-      </Text>
-     
-      <Input
+          <Input
             placeholder="Old ProductName"
             value={oldProductName}
             onChangeText={(text) => setOldProductName(text)}
@@ -91,17 +88,17 @@ const EditProductScreen = () => {
             label="Old ProductName"
             style={styles.input}
           />
-      <Text
-        style={{
-          fontSize: 26,
-          color: "black",
-          fontWeight: "500",
-          letterSpacing: 1,
-          marginTop: 5,
-        }}
-      >
-        New Data
-      </Text>
+          <Text
+            style={{
+              fontSize: 26,
+              color: "black",
+              fontWeight: "500",
+              letterSpacing: 1,
+              marginTop: 5,
+            }}
+          >
+            New Data
+          </Text>
           <Input
             onChangeText={(text) => setProductName(text)}
             value={productName}
@@ -144,70 +141,67 @@ const EditProductScreen = () => {
             style={styles.input}
           />
         </View>
-    <View style={styles.buttonContainer}>
-    <Button
-          title="ADD Product"
-          onPress={() => {
-            handleEditProduct();
-          }}
-        />
-     
-    </View>
-  </View>
-  </ScrollView>
-  )
-}
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Edit Product"
+            onPress={() => {
+              handleEditProduct();
+            }}
+          />
+        </View>
+      </View>
+    </ScrollView>
+  );
+};
 
-export default EditProductScreen
+export default EditProductScreen;
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    inputContainer: {
-        width: "85%",
-      },
-      input: {
-
-        paddingHorizontal:5,
-        paddingVertical: 7,
-        borderRadius: 10,
-        width:"92%"
-        ,color:"black"
-      },
-    buttonContainer: {
-      width: "60%",
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 10,
-    },
-    button: {
-      backgroundColor: "#0782F9",
-      width: "100%",
-      padding: 5,
-      borderRadius: 10,
-      alignItems: "center",
-    },
-    buttonText: {
-      color: "white",
-      fontWeight: "700",
-      fontSize: 16,
-    },
-    buttonOutline: {
-      backgroundColor: "white",
-      marginTop: 5,
-      borderColor: "#0782F9",
-      borderWidth: 2,
-    },
-    buttonOutlineText: {
-      color: "#0782F9",
-      fontWeight: "700",
-      fontSize: 16,
-    },
-    image: {
-      width: 250,
-      height: 250,
-    },
-  });
-  
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  inputContainer: {
+    width: "85%",
+  },
+  input: {
+    paddingHorizontal: 5,
+    paddingVertical: 7,
+    borderRadius: 10,
+    width: "92%",
+    color: "black",
+  },
+  buttonContainer: {
+    width: "60%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  button: {
+    backgroundColor: "#0782F9",
+    width: "100%",
+    padding: 5,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  buttonOutline: {
+    backgroundColor: "white",
+    marginTop: 5,
+    borderColor: "#0782F9",
+    borderWidth: 2,
+  },
+  buttonOutlineText: {
+    color: "#0782F9",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  image: {
+    width: 250,
+    height: 250,
+  },
+});
