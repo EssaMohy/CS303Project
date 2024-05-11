@@ -51,7 +51,7 @@ const handelUpdate = async (id) => {
         return prevQuantity + 1;
       });
     } else {
-    alert("لا يمكنك زيادة الكمية المتاحة لهذا المنتج");
+    alert("you can't add more of the quantity");
     }
   };
 
@@ -62,7 +62,7 @@ const handelUpdate = async (id) => {
         return prevQuantity - 1;
       });
     } else {
-        alert("لا يمكنك تقليل الكمية المتاحة لهذا المنتج");
+        alert("the minimum quantity is one");
     }
   };
   
@@ -190,8 +190,8 @@ const handelUpdate = async (id) => {
                 setShowConfirmButton(false); // Optionally hide the button after pressing it
               }}
             >
-              <Text style={{ color: "white", fontWeight: "400", fontSize: 14 }}>
-                تاكيد
+              <Text style={{ color: "white", fontWeight: "400", fontSize: 11 }}>
+                Confirm
               </Text>
             </TouchableOpacity>
           </View>
