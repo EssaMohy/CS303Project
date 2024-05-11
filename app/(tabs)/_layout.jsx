@@ -39,10 +39,14 @@ export default function Layout() {
           tabBarShowLabel: false,
           tabBarActiveTintColor: "#233B6F",
           tabBarStyle: {
-            backgroundColor: "#FCC873",
-
-            height: 60,
-            opacity: isKeyboardVisible ? 0 : 1,
+            position: "absolute",
+          bottom: 25,
+          left: 20,
+          right: 20,
+          backgroundColor: "#FCC873",
+          borderRadius: 20,
+          height: 60,
+          opacity: isKeyboardVisible ? 0 : 1,
           },
           headerShown: false,
           headerStyle: {
