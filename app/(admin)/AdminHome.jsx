@@ -19,10 +19,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { getUserUId, logout } from "../../firebase/auth";
 import { getUserById, getUsers, subscribeUser } from "../../firebase/user";
 import { getProducts, subscribeProduct } from "../../firebase/products";
+import { router } from "expo-router";
+import { auth } from "../../firebase/firebaseConfig";
 
-
-
-const ProfileScreen = ({ navigation }) => {
+const AdminHome = () => {
   const ss = () => {
     logout(auth).then(() => {
       console.log("sign out done");
@@ -31,9 +31,8 @@ const ProfileScreen = ({ navigation }) => {
   const [Users, setUsers] = useState([]);
   const [Products, setProducts] = useState([]);
   const [email, setEmail] = useState("");
-  const [name,setName]=useState("");
+  const [name, setName] = useState("");
   const [image, setimage] = useState(null);
-
 
   const getUsersHandle = async () => {
     const arr = await getUsers();
@@ -43,7 +42,6 @@ const ProfileScreen = ({ navigation }) => {
     getUsersHandle();
   }, []);
 
-
   const getProductsHandle = async () => {
     const arr = await getProducts();
     setProducts(arr);
@@ -51,48 +49,32 @@ const ProfileScreen = ({ navigation }) => {
   useEffect(() => {
     getProductsHandle();
   }, []);
-  
 
   useEffect(() => {
     const unsubscribeUser = subscribeUser(({ change, snapshot }) => {
       if (change.type === "added") {
         getUsersHandle();
-        
-
       }
       if (change.type === "modified") {
         getUsersHandle();
-       
       }
       if (change.type === "removed") {
         getUsersHandle();
-       
       }
     });
-
- 
   }, []);
   useEffect(() => {
     const unsubscribe = subscribeProduct(({ change, snapshot }) => {
       if (change.type === "added") {
         getProductsHandle();
-
-        
-
       }
       if (change.type === "modified") {
         getProductsHandle();
-
-       
       }
       if (change.type === "removed") {
         getProductsHandle();
-
-       
       }
     });
-
-
   }, []);
   useEffect(() => {
     getUserUId().then((id) => {
@@ -102,7 +84,6 @@ const ProfileScreen = ({ navigation }) => {
         setEmail(user[0].email);
         setimage(user[0].image);
         setName(user[0].name);
-      
       });
     });
   }, []);
@@ -130,7 +111,7 @@ const ProfileScreen = ({ navigation }) => {
                   },
                 ]}
               >
-              {name}
+                {name}
               </Title>
               <Title
                 style={[
@@ -161,10 +142,12 @@ const ProfileScreen = ({ navigation }) => {
             <Title style={{ color: "#222222" }}>{Users.length}</Title>
             <TouchableRipple
               onPress={() => {
-                navigation.navigate("AllUsers");
+                router.navigate("/AllUsersScreen");
               }}
             >
-              <Caption style={{ color: "#222222", fontSize: 15 }}>Users</Caption>
+              <Caption style={{ color: "#222222", fontSize: 15 }}>
+                Users
+              </Caption>
             </TouchableRipple>
           </View>
           <View
@@ -177,14 +160,11 @@ const ProfileScreen = ({ navigation }) => {
             ]}
           >
             <Title style={{ color: "#222222" }}>{Products.length}</Title>
-            <TouchableRipple
-              onPress={() => {
-                navigation.navigate("AllProduct");
-              }}
-            >
-           <Caption style={{ color:"#222222", fontSize: 15 }}>Products</Caption>      
-        </TouchableRipple>
-          
+            <TouchableRipple onPress={() => {}}>
+              <Caption style={{ color: "#222222", fontSize: 15 }}>
+                Products
+              </Caption>
+            </TouchableRipple>
           </View>
 
           <View style={styles.infoBox}>
@@ -194,12 +174,9 @@ const ProfileScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.menuWrapper}>
- 
-          
-
           <TouchableRipple
             onPress={() => {
-              navigation.navigate("AddProduct");
+              router.navigate("/AddProductScreen");
             }}
           >
             <View style={styles.menuItem}>
@@ -209,7 +186,7 @@ const ProfileScreen = ({ navigation }) => {
           </TouchableRipple>
           <TouchableRipple
             onPress={() => {
-              navigation.navigate("DeleteProduct");
+              router.navigate("/DeleteProductScreen");
             }}
           >
             <View style={styles.menuItem}>
@@ -220,8 +197,8 @@ const ProfileScreen = ({ navigation }) => {
 
           <TouchableRipple
             onPress={() => {
-              navigation.navigate("EditProduct");
-            }} 
+              router.navigate("/EditProductScreen");
+            }}
           >
             <View style={styles.menuItem}>
               <FontAwesome5 name="edit" size={25} color="#964B00" />
@@ -231,7 +208,7 @@ const ProfileScreen = ({ navigation }) => {
 
           <TouchableRipple
             onPress={() => {
-              navigation.navigate("AddAdmin");
+              router.navigate("/AddAdminScreen");
             }}
           >
             <View style={styles.menuItem}>
@@ -241,7 +218,7 @@ const ProfileScreen = ({ navigation }) => {
           </TouchableRipple>
           <TouchableRipple
             onPress={() => {
-              navigation.navigate("DeleteUser");
+              router.navigate("/DeleteUserScreen");
             }}
           >
             <View style={styles.menuItem}>
@@ -325,4 +302,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default AdminHome;

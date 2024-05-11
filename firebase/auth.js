@@ -19,7 +19,7 @@ onAuthStateChanged(auth, async (user) => {
           router.replace("/(tabs)/home");
           }
           else {
-            router.replace("/(admin)");
+            router.replace("/(admin)/AdminHome");
           }
           
         } else {
