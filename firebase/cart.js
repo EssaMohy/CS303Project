@@ -37,24 +37,13 @@ async function getTotalCash() {
     .then(async (user) => {
         for(const cartProduct of user[0].cart) {
             await getProductByID(cartProduct.product_id)
-            .then(product => cashSum += (cartProduct.qnt * product.price[cartProduct.size]))
+            .then(product => cashSum += (parseInt(cartProduct.qnt* product.price)))
         }
     });
     return cashSum;
 }
 
-async function getTotalCoins() {
-    const user_id = getCurrUserId();
-    let coinsSum = 0;
-    await getUserById(user_id)
-    .then(async (user) => {
-        for(const cartProduct of user[0].cart) {
-            await getProductByID(cartProduct.product_id)
-            .then(product => coinsSum += (cartProduct.qnt * (product.price[cartProduct.size] + 10)))
-        }
-    });
-    return coinsSum;
-}
+
 
 async function getTotalSumInCash() {
     const user_id = getCurrUserId();
@@ -83,29 +72,7 @@ async function getTotalSumInCash() {
     }
 }
 
-async function getTotalSumInCoins() {
-    const user_id = getCurrUserId();
-    let coinsSum = 0;
-    let userCoins = 0;
-    await getUserById(user_id)
-    .then(async (user) => {
-        userCoins = await user[0].balance;
-        for(const cartProduct of user[0].cart) {
-            await getProductByID(cartProduct.product_id)
-            .then(product => coinsSum += (cartProduct.qnt * (product.price[cartProduct.size] + 10)))
-        }
-    });
 
-    try {
-        if(coinsSum > userCoins) {
-            return { status: false, data: "Your coins balance isn't enough" };
-        } else {
-            return { status: true, data: coinsSum };
-        }
-    } catch (error) {
-        console.log(error.message);
-    }
-}
 
 async function getTotalQnt() {
     const user_id = getCurrUserId();
@@ -244,11 +211,10 @@ async function addUserBonus() {
 
 
 export {
-    getTotalSumInCoins,
     getTotalSumInCash,
     orderCartInCoins,
     orderCartInCash,
-    getTotalCoins,
     getTotalCash,
     getTotalQnt,
 }
+

@@ -7,23 +7,40 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CategoryButtons from "../components/CategoryButtons";
 import Listings from "../components/Listings";
 import ListingData from "../data/destinations.json";
 import Brands from "../components/brands";
+import { getProducts } from "../firebase/products";
 const Home = () => {
   const [category, setCategory] = useState("Trending");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  console.log("filteredProducts", filteredProducts);
   const onCatChanged = (category) => {
     console.log("Category: ", category);
     setCategory(category);
   };
+  const getProductHandle = async () => {
+    const products = await getProducts();
+    let allProducts = [];
+
+    for (const product of products) {
+      allProducts.push({ ...product});
+    }
+      const filteredProductsArr = allProducts;
+      setFilteredProducts(filteredProductsArr);
+  }
+
+  useEffect(() => {
+    getProductHandle();
+  }, []);
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.headingtxt}>Hello</Text>
       <Text style={styles.headingtxt2}>Choose your top brands</Text>
       <CategoryButtons onCategoryChanged={onCatChanged}></CategoryButtons>
-      <Listings listings={ListingData} category={category}></Listings>
+      <Listings listings={filteredProducts} category={category}></Listings>
       <Text style={styles.headingtxt2}>Top Deals</Text>
       <Image
         source={{
@@ -34,7 +51,7 @@ const Home = () => {
       <Text style={styles.headingtxt2}>Search by brand</Text>
       <Brands></Brands>
       <Text style={styles.headingtxt2}>Latest Products</Text>
-      <Listings listings={ListingData} category={category}></Listings>
+      <Listings listings={filteredProducts} category={category}></Listings>
       <View style={{ height: 120 }}></View>
     </ScrollView>
   );

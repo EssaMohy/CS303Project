@@ -12,59 +12,35 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { TextInput } from "react-native";
 import { FlatList } from "react-native";
 import SearchCard from "../../../components/SearchCard";
+import { getProducts } from "../../../firebase/products";
 const search = ({ search }) => {
-  const data = [
-    {
-      image:
-        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
-      name: "Rolex Submariner",
-      type: "Eng | Fiction | 2h10m",
-      price: "100",
-      id: 1,
-    },
-    {
-      image:
-        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
-      name: "Harry Potter 2",
-      type: "Eng | Fiction | 2h10m",
-      price: "100",
-      id: 2,
-    },
-    {
-      image:
-        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
-      name: "Harry Potter 3",
-      type: "Eng | Fiction | 2h10m",
-      price: "100",
-      id: 3,
-    },
-    {
-      image:
-        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
-      name: "Harry Potter 4",
-      type: "Eng | Fiction | 2h10m",
-      price: "100",
-      id: 4,
-    },
-    {
-      image:
-        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
-      name: "Harry Potter 5",
-      type: "Eng | Fiction | 2h10m",
-      price: "100",
-      id: 5,
-    },
-    {
-      image:
-        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
-      name: "Harry Potter 6",
-      type: "Eng | Fiction | 2h10m",
-      price: "100",
-      id: 6,
-    },
-  ];
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const getProductHandle = async () => {
+    const products = await getProducts();
+    let allProducts = [];
+
+    for (const product of products) {
+      allProducts.push({ ...product });
+    }
+
+    if (searchTerm) {
+      const filteredProductsArr = allProducts.filter((product) =>
+        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredProducts(filteredProductsArr);
+    } else {
+      setFilteredProducts(allProducts);
+    }
+  };
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white",paddingTop: Platform.OS === "android" ?StatusBar.currentHeight : 0, }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: "white",
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      }}
+    >
       <View
         style={{
           flexDirection: "row",
@@ -93,7 +69,8 @@ const search = ({ search }) => {
             }}
             placeholder="Search"
             placeholderTextColor={"#222222"}
-            //value={searchQuery}
+            value={searchTerm}
+            onChangeText={(query) => setSearchTerm(query)}
           />
         </View>
         <View
@@ -107,32 +84,23 @@ const search = ({ search }) => {
             alignItems: "center",
           }}
         >
-          {search ? (
-            <Icon
-              name="cancel"
-              size={28}
-              color={"white"}
-              // onPress={clearSearch} // Trigger handleSearch when the search icon is clicked
-            />
-          ) : (
-            <Icon
-              name="search"
-              size={28}
-              color={"white"}
-              // onPress={handleSearch} // Trigger handleSearch when the search icon is clicked
-            />
-          )}
+          <Icon
+            name="search"
+            size={28}
+            color={"white"}
+            onPress={getProductHandle} // Trigger handleSearch when the search icon is clicked
+          />
         </View>
       </View>
       <View style={{ flex: 1 }}>
         <FlatList
-          data={data}
+          data={filteredProducts}
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <SearchCard
-              name={item.name}
-              image={item.image}
+              name={item.productName}
+              image={item.imageURL}
               price={item.price}
               type={item.type}
             />
@@ -152,6 +120,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    paddingTop: Platform.OS === "android" ?StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });

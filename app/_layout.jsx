@@ -8,7 +8,7 @@ const StackLayout = () => {
       <Stack.Screen name="(admin)"  />
       <Stack.Screen name="index"  />
       <Stack.Screen name="[id]" options={{ headerShown: true, headerTitle:'Category Details' }} />
-      <Stack.Screen name="ProductDetials"  />
+      <Stack.Screen name="ProductDetails"  />
     </Stack>
   );
 };

@@ -10,6 +10,7 @@ import {
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { getCurrUserId, getUserById, updateUser } from "../firebase/user";
 
 const CartCard = ({
   itemName,
@@ -20,13 +21,29 @@ const CartCard = ({
   itemImage,
   checked,
 }) => {
-  const [quantity, setQuantity] = useState(parseInt(itemQuantity));
+  const [quantity, setQuantity] = useState(itemQuantity);
   const [isloading, setISLoading] = useState(false);
   const [showConfirmButton, setShowConfirmButton] = useState(false);
-  const handelDelete = async () => {
-   
-  };
+  const user_id = getCurrUserId();
 
+  const handelDelete = async () => {
+    getUserById(user_id)
+    .then(user => {
+      updateUser(user_id, { cart: [  ...user[0].cart,  ] }).then(() => {
+        console.log("edit product");
+      })
+    })
+    .catch(err => alert(err.message));
+  };
+const handelUpdate = async (id) => {
+  getUserById(user_id)
+  .then(user => {
+    updateUser(user_id, { cart: [ ...user[0].cart, { product_id: id, qnt: quantity} ] }).then(() => {
+      console.log("edit product");
+    })
+  })
+  .catch(err => alert(err.message));
+};
   const handleIncrement = () => {
     if (quantity < 12) {
       setQuantity((prevQuantity) => {
@@ -53,7 +70,7 @@ const CartCard = ({
     <View style={[styles.cardContainer, isloading && styles.loadingContainer]}>
       {isloading && (
         <View style={styles.loadingOverlay}>
-          <ActivityIndicator size="large" color="#FE5900" />
+          <ActivityIndicator size="large" color="#000" />
         </View>
       )}
 
@@ -153,22 +170,6 @@ const CartCard = ({
               onPress={handleDecrement}
             />
           </View>
-          <View
-            style={{
-              backgroundColor: "#fff",
-              marginLeft: 10,
-              borderRadius: 999,
-              borderColor: "#939393",
-              borderWidth: 0.5,
-            }}
-          >
-            <MaterialCommunityIcons
-              name="delete-empty-outline"
-              size={25}
-              color="#939393"
-              onPress={handelDelete}
-            />
-          </View>
         </View>
 
         {showConfirmButton && (
@@ -185,7 +186,7 @@ const CartCard = ({
           >
             <TouchableOpacity
               onPress={() => {
-                handelUpdate(data);
+                handelUpdate(id);
                 setShowConfirmButton(false); // Optionally hide the button after pressing it
               }}
             >

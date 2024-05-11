@@ -9,19 +9,14 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Colors from "../constants/colors";
-import { Link } from "expo-router";
-
+import { Link, router } from "expo-router";
+import {  updateUser,getCurrUserId,getUserById } from "../firebase/user";
 
 
 const Listings = ({ listings, category }) => {
   const [loading, setLoading] = useState(false);
-
-  const [cartItems, setCartItems] = useState([]);
-
-  const handleAddToCart = (item) => {
-    setCartItems([...cartItems, item]);
-  };
-
+  const user_id = getCurrUserId();
+  console.log("user_id", user_id);
   useEffect(() => {
     console.log("update listing");
     setLoading(true);
@@ -31,29 +26,39 @@ const Listings = ({ listings, category }) => {
     }, 200);
   }, [category]);
 
+
+  function addToCart(id) {
+    getUserById(user_id)
+    .then(user => {
+      updateUser(user_id, { cart: [ ...user[0].cart, { product_id: id, qnt: 1} ] }).then(() => {
+        console.log("added to cart");
+      })
+    })
+    .catch(err => alert(err.message));
+  }
   const renderItems = ({
     item,
   } ) => {
     return (
       <Link href={`/listing/${item.id}`} asChild>
         <View style={styles.item}>
-          <TouchableOpacity>
+          <TouchableOpacity  onPress={()=> router.navigate('/ProductDetails',{product:item.id})}>
             <View>
-              <Image source={{ uri: item.image }} style={styles.image} />
+              <Image source={{ uri: item.imageURL }} style={styles.image} />
               <View style={styles.overlay}>
                 <Text
                   style={styles.brandtxt}
                   numberOfLines={1}
                   ellipsizeMode="tail"
                 >
-                  {item.brand}
+                  {item.productName}
                 </Text>
                 <Text style={styles.price}>${item.price}</Text>
               </View>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => handleAddToCart(item)}
+            onPress={() => addToCart(item.id)}
             style={styles.addButton}
           >
             <Text style={styles.addButtonText}>Add to Cart</Text>

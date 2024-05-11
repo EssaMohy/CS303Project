@@ -5,45 +5,67 @@ import {
   TouchableOpacity,
   SafeAreaView,
   FlatList,
-  Button,
   ActivityIndicator,
   Platform,
   StatusBar,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import CartCard from "../../../components/Cartacard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getProductByID } from "../../../firebase/products";
+import { getCurrUserId, getUserById, updateUser } from "../../../firebase/user";
+import Button from "../../../components/Button";
+import { getTotalCash } from "../../../firebase/cart";
 
 const Cart = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [userCart, setUserCart] = useState([]);
+  const [ProductInCart, setProductInCart] = useState([]);
   const [ClearLoading, setClearLoading] = useState(false);
-  //const [data, setData] = useState([]);
-  const data = [
-    {
-      id: 1,
-      name: "item1",
-      price: 10,
-      image:
-        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: "item2",
-      price: 20,
-      image:
-        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
-      quantity: 2,
-    },
-    {
-      id: 3,
-      name: "item3",
-      price: 30,
-      image:
-        "https://watchesofmayfair.com.au/media/catalog/product/cache/802bc0ad6eb1824c36662c78b0bb3dfe/r/o/rolex-submariner-date-116613ln_image-01.png",
-      quantity: 3,
-    },
-  ];
+  const [totalInCash, setTotalInCash] = useState(0);
+  const user_id = getCurrUserId();
+console.log(userCart);
+  const getProductHandle = async () => {
+    let allProducts = [];
+    // setRefreshing(true);
+    for (const product of userCart) {
+      const getProdduct = await getProductByID(product.product_id);
+      allProducts.push({
+        ...getProdduct,
+        id: product.product_id,
+        qnt: product.qnt,
+      });
+    }
+    // setRefreshing(false);
+    setProductInCart(allProducts);
+  };
+
+  useEffect(() => {
+    getProductHandle();
+  }, [userCart]);
+  const handelDelete = async () => {
+    getUserById(user_id)
+      .then((user) => {
+        updateUser(user_id, { cart: [] }).then(() => {
+          console.log("delete cart");
+        });
+      })
+      .catch((err) => alert(err.message));
+  };
+  useEffect(() => {
+    const user_id = getCurrUserId();
+    getUserById(user_id).then((user) => setUserCart(user[0].cart));
+  }, []);
+
+
+  useEffect(() => {
+    let totalCash = 0;
+    const getTotal = async () => {
+      await getTotalCash().then((total) => totalCash = total);
+    }
+    getTotal().then(() => setTotalInCash(totalCash));
+  }, [totalInCash]);
+ 
   return (
     <SafeAreaView style={styles.container}>
       {isLoading || ClearLoading ? (
@@ -79,42 +101,44 @@ const Cart = () => {
                 justifyContent: "center",
               }}
             >
-              <Text style={{ color: "red" }}>delete all</Text>
+              <Text onPress={handelDelete} style={{ color: "red" }}>
+                delete all
+              </Text>
             </View>
           </View>
           <View style={styles.upperContentLine} />
-          {data.length ? (
+          {ProductInCart.length ? (
             <FlatList
-              data={data}
+              data={ProductInCart}
               keyExtractor={(item) => item.id}
               showsVerticalScrollIndicator={false}
               renderItem={({ item, index }) => (
                 <CartCard
-                  itemName={item.name}
+                  itemName={item.productName}
                   id={item.id}
-                  itemQuantity={item.quantity}
-                  itemImage={item.image}
+                  itemQuantity={item.qnt}
+                  itemImage={item.imageURL}
                   itemPrice={item.price}
                 />
               )}
             />
           ) : (
             <View style={styles.emptyMessage}>
-              <Text style={styles.emptyText}>العربة فارغة</Text>
+              <Text style={styles.emptyText}>your cart is empty</Text>
             </View>
           )}
           <View style={styles.totalPrice}>
-            <Text style={styles.totalPriceText}> المجموع : </Text>
-            <Text style={styles.totalPriceText}>5555</Text>
+            <Text style={styles.totalPriceText}> Total: </Text>
+            <Text style={styles.totalPriceText}>{totalInCash}</Text>
           </View>
 
           <View style={styles.button}>
             <Button
-              style={{ height: 44, radius: 20, color: "#FE5900" }}
-              title={"Check Out"}
+             
+              title={"Checkout"}
             />
           </View>
-          <View style={{ height:75}}></View>
+          <View style={{ height: 75 }}></View>
         </>
       )}
     </SafeAreaView>
@@ -128,7 +152,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 7,
     backgroundColor: "#fff",
-    paddingTop: Platform.OS === "android" ?StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   header: {
     flexDirection: "row",
@@ -140,14 +164,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   button: {
-    backgroundColor: "#FE5900",
-    height: 44,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 5,
-    width: "95%",
-    marginHorizontal: "2.5%",
+    
   },
   button1: {
     width: "100%",
