@@ -1,4 +1,12 @@
-import { StyleSheet, Text, View, ScrollView, Image, Platform, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  Platform,
+  StatusBar,
+} from "react-native";
 import React, { useState } from "react";
 import CategoryButtons from "../components/CategoryButtons";
 import Listings from "../components/Listings";
@@ -27,11 +35,7 @@ const Home = () => {
       <Brands></Brands>
       <Text style={styles.headingtxt2}>Latest Products</Text>
       <Listings listings={ListingData} category={category}></Listings>
-      <Text> </Text>
-      <Text> </Text>
-      <Text> </Text>
-      <Text> </Text>
-      <Text> </Text>
+      <View style={{ height: 120 }}></View>
     </ScrollView>
   );
 };
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30, // Adjust the radius as needed
     borderTopRightRadius: 30, // Adjust the radius as needed
     backgroundColor: "white",
-    paddingTop: Platform.OS === "android" ?StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   headingtxt: {
     fontSize: 35,
