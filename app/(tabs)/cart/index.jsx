@@ -7,6 +7,8 @@ import {
   FlatList,
   Button,
   ActivityIndicator,
+  Platform,
+  StatusBar,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import CartCard from "../../../components/Cartacard";
@@ -109,7 +111,7 @@ const Cart = () => {
           <View style={styles.button}>
             <Button
               style={{ height: 44, radius: 20, color: "#FE5900" }}
-              title={"اختار طريقة الدفع"}
+              title={"Check Out"}
             />
           </View>
           <View style={{ height:75}}></View>
@@ -126,6 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 7,
     backgroundColor: "#fff",
+    paddingTop: Platform.OS === "android" ?StatusBar.currentHeight : 0,
   },
   header: {
     flexDirection: "row",

@@ -6,6 +6,7 @@ import {
   Keyboard,
   StatusBar,
   StyleSheet,
+  Platform,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { TextInput } from "react-native";
@@ -63,7 +64,7 @@ const search = ({ search }) => {
     },
   ];
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white",paddingTop: Platform.OS === "android" ?StatusBar.currentHeight : 0, }}>
       <View
         style={{
           flexDirection: "row",
@@ -151,7 +152,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    borderTopLeftRadius: 30, // Adjust the radius as needed
-    borderTopRightRadius: 30, // Adjust the radius as needed
+    paddingTop: Platform.OS === "android" ?StatusBar.currentHeight : 0,
   },
 });
