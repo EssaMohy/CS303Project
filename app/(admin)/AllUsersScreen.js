@@ -44,7 +44,7 @@ const AllUsersScreen = ({ navigation }) => {
         >
           <TouchableOpacity
             onPress={() => {
-              router.back;
+              router.back();
             }}
           >
             <Ionicons
